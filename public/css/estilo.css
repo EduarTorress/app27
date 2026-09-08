@@ -1,0 +1,164 @@
+.inputright {
+    text-align: right;
+}
+
+td {
+    white-space: nowrap;
+}
+
+/* Es general */
+#header_modal {
+    color: #FFF;
+}
+
+/* Se encuentra en el index */
+#barralateral {
+    background-color: #4A4A4E;
+}
+
+#barralaterallogo {
+    background-color: #4A4A4E;
+}
+
+thead:not(.theadcompra) {
+    color: white;
+    background-color: #03326a;
+    /* 006CA7 */
+}
+
+/* Es del select re_pedido */
+#precios {
+    width: 70px;
+}
+
+/* Esta en re_carcompras */
+#transacciones {
+    background-color: #0373B0;
+    color: white;
+}
+
+/* Animaciones */
+.loader {
+    font-size: 10px;
+    margin: 30% auto;
+    text-indent: -9999em;
+    width: 11em;
+    height: 11em;
+    border-radius: 50%;
+    background: #ffffff;
+    background: -moz-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+    background: -webkit-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+    background: -o-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+    background: -ms-linear-gradient(left, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+    background: linear-gradient(to right, #ffffff 10%, rgba(255, 255, 255, 0) 42%);
+    position: relative;
+    -webkit-animation: load3 1.4s infinite linear;
+    animation: load3 1.4s infinite linear;
+}
+
+.loader:before {
+    width: 50%;
+    height: 50%;
+    background: #0373B0;
+    border-radius: 100% 0 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+}
+
+.loader:after {
+    background: #0dcecb;
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    content: '';
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+@-webkit-keyframes load3 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes load3 {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+#txtdescripcion,
+#txtunidad,
+#txtstock,
+#txtcodigo,
+#txtpreciosgv,
+#txtprecios,
+#txtcantidad,
+#cmbprecios,
+#txtprecio {
+    position: absolute;
+    left: 90px;
+}
+
+#cmbprecios {
+    width: 100px;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+#btnmodalprov {
+    color: black;
+}
+
+#cmbdcto {
+    width: 5%;
+}
+
+.theadcompra {
+    background-color: #28a745;
+}
+
+.paginate_button {
+    background-color: #006CA7;
+}
+
+input[type=search] {
+    color: black;
+}
+
+.dataTables_filter {
+    color: black;
+}
+
+#headersysven {
+    background-color: #b4daf0;
+    /* Usa tu color hexadecimal preferido */
+    color: black;
+    /* Asegura que el texto sea legible */
+}

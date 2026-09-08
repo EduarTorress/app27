@@ -1,0 +1,15 @@
+{
+	"unidades":[
+		"UNID",
+		"GLN",
+		"KG",
+		"MTS",
+		"ROLLO",
+		"BOLSA",
+		"PAQUETE",
+		"CM",
+		"MM",
+		"DM",
+		"PULG"
+	]
+}

@@ -1,0 +1,236 @@
+[
+    {
+        "main": "Ventas",
+        "class": "fas fa-cart-plus",
+        "elementos": [
+            {
+                "item": "Ventas x General",
+                "ruta": "/ventasrapidas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Ventas Corporativas",
+                "ruta": "/vtas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Notas de crédito",
+                "ruta": "/notascredito/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "V"
+            },
+            {
+                "item": "Informe de Ventas",
+                "ruta": "/vtas/vtasresumidas",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Rotación de Productos",
+                "ruta": "/vtas/indexventadproducto",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Informe de Vtas x Cliente",
+                "ruta": "/vtas/indexlistavxcliente",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Registro de ventas",
+                "ruta": "/vtas/rvtas",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Por Informar a SUNAT",
+                "ruta": "/cpe/fxe",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Compras",
+        "class": "fas fa-cart-plus",
+        "elementos": [
+            {
+                "item": "Registrar Compra",
+                "ruta": "/compras/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Informe de Compras",
+                "ruta": "/compras/listar",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Rotación de Productos",
+                "ruta": "/compras/indexcompradproducto",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Registro de compras",
+                "ruta": "/compras/listarPLE",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Lecturas",
+        "class": "fa fa-tachometer",
+        "elementos": [
+            {
+                "item": "Registro de Lecturas",
+                "ruta": "/lecturas/indexregistro",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Historial de Lecturas",
+                "ruta": "/lecturas/indexhistorial",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            }
+        ]
+    },
+    {
+        "main": "Guias Remisión",
+        "class": "fa fa-truck",
+        "elementos": [
+            {
+                "item": "Guia Remitente Ventas",
+                "ruta": "/guiasr/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Guia Remitente Compras",
+                "ruta": "/guiasc/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Listar Guias Remitente",
+                "ruta": "/guiasr/listar",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Por Informar a SUNAT",
+                "ruta": "/guias/listarxenviar",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            }
+        ]
+    },
+    {
+        "main": "Inventario",
+        "class": "fa fa-check",
+        "elementos": [
+            {
+                "item": "Ajuste de Inventario",
+                "ruta": "/productos/index/5",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Kadex x Producto",
+                "ruta": "/inventarios/kardex",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Liquidación Caja",
+        "class": "fas fa-credit-card",
+        "elementos": [
+            {
+                "item": "Visualizar Caja",
+                "ruta": "/cajas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Ingresos y Egresos",
+                "ruta": "/cajas/indexIngresosEgresos",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Comparar Bancos",
+                "ruta": "/cajas/indexcomparabancos",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Administración",
+        "class": "fas fa-address-card",
+        "elementos": [
+            {
+                "item": "Productos",
+                "ruta": "/productos/index/4",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Clientes",
+                "ruta": "/cliente/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Proveedores",
+                "ruta": "/proveedor/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Sucursales",
+                "ruta": "/sucursales/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Marcas",
+                "ruta": "/marcas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Transportistas",
+                "ruta": "/transportista/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Usuarios",
+                "ruta": "/usuarios/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            }
+        ]
+    },
+    {
+        "main": "Mantenimiento",
+        "class": "fa fa-window-close",
+        "elementos": [
+            {
+                "item": "Eliminar Comprobante",
+                "ruta": "/cpe/indexAnular",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    }
+]

@@ -1,0 +1,9 @@
+<?php
+$this->setLayout('layouts/admin');
+?>
+<?php
+$this->startSection('contenido');
+?>
+<?php
+$this->endSection('contenido');
+?>

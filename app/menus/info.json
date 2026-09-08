@@ -1,0 +1,23 @@
+[
+    {
+        "validarstock": "PARA VALIDAR STOCK",
+        "multiigv": "PARA VENDER CON IGV INCLUIDO Y NO INCLUIDO",
+        "impresionticket": "IMPRESIÓN EN FORMATO TICKET",
+        "multiempresa": "PARA CONFIGURAR SI ES MULTI-EMPRESA",
+        "depositocomocredito": "PARA INGRESAR LOS DEPOSITOS COMO CRÉDITOS",
+        "creditoscomocuotasvtas": "PARA PARTIR LOS CRÉDITOS EN CUOTAS",
+        "ventascondescuento": "PARA APLICAR DESCUENTOS GENERALES / ITEM EN LAS VENTAS",
+        "logoextenso": "HACER QUE EL LOGO SEA MAS EXTENSO EN LA IMPRESIÓN",
+        "precioespecial": "HABILITAR EL PRECIO ESPECIAL EN PRODUCTOS Y VENTAS",
+        "cajaxtienda": "HACER QUE LA CAJA SE MANEJE POR SUCURSAL",
+        "ventasanticipado": "HABILITAR LAS VENTAS POR ANTICIPO",
+        "facturardolares": "PERMITE VENDER EN DOLARES",
+        "nocuentasxpagar": "NO INGRESA A CUENTAS POR PAGAR",
+        "columnacategoria": "SE MUESTRA CATEGORIA EN LA LISTA DE PRODUCTOS",
+        "convercostsolesprodcompra": "CONVIERTE LOS COSTOS / PRECIOS A SOLES CUANDO SE INGRESAN COMPRAS EN DOLARES",
+        "compranoingresacaja": "LAS COMPRAS NO INGRESAN A CAJA",
+        "vercostos": "PERMITE VISUALIZAR LOS COSTOS DESDE CUALQUIER USUARIO EN LA LISTA DE PRODUCTOS DE LA MODAL (VENTA)",
+        "allcamposproductos": "MOSTRAR TODOS LOS CAMPOS DEL PRODUCTOS PARA REGISTRARLO O MODIFICARLO",
+        "guardarpedidocomonuevo":"PERMITE GUARDAR UN PEDIDO COMO NUEVO CUANDO LO VAS A MODIFICAR"
+    }
+]
