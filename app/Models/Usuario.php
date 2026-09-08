@@ -168,7 +168,7 @@ class Usuario extends Modelo
     }
     function save()
     {
-        $sql = "INSERT INTO fe_usua(nomb,clave,activo,tipo,fechusua,usuausua,password,idpcusua,sueldo) VALUES(:nomb,:clave,'S',:tipousuario,LOCALTIME(),:usuausua,:pass,:idpcusua,:sueldo);";
+        $sql = "INSERT INTO fe_usua(nomb,clave,activo,tipo,fechusua,usuausua,password,idpcusua) VALUES(:nomb,:clave,'S',:tipousuario,LOCALTIME(),:usuausua,:pass,:idpcusua);";
         $query = $this->prepare($sql);
         $password = password_hash($this->txtclave, PASSWORD_DEFAULT);
         $query->execute([
@@ -177,8 +177,7 @@ class Usuario extends Modelo
             'tipousuario' => $this->cmbtipousuario,
             'usuausua' =>  session()->get('usuario'),
             'pass' => $password,
-            'idpcusua' => 'web',
-            'sueldo' => $this->sueldo
+            'idpcusua' => 'web'
         ]);
         if ($query->errorCode() != '00000') {
             //var_dump($query->errorInfo());
@@ -189,7 +188,7 @@ class Usuario extends Modelo
     }
     function update()
     {
-        $sql = "update fe_usua set nomb=:nomb,clave=:clave,tipo=:tipousuario,usuausua=:usuausua,password=:pass,sueldo=:sueldo where idusua=:idusua";
+        $sql = "update fe_usua set nomb=:nomb,clave=:clave,tipo=:tipousuario,usuausua=:usuausua,password=:pass where idusua=:idusua";
         $query = $this->prepare($sql);
         $password = password_hash($this->txtclave, PASSWORD_DEFAULT);
         $query->execute([
@@ -198,8 +197,7 @@ class Usuario extends Modelo
             'tipousuario' => $this->cmbtipousuario,
             'usuausua' =>  session()->get('usuario'),
             'pass' => $password,
-            'idusua' => $this->txtidusua,
-            'sueldo' => $this->sueldo
+            'idusua' => $this->txtidusua
         ]);
         if ($query->errorCode() != '00000') {
             //var_dump($query->errorInfo());
