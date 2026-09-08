@@ -164,12 +164,6 @@
                 "ruta": "/cajas/indexIngresosEgresos",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
-            },
-            {
-                "item": "Comparar Bancos",
-                "ruta": "/cajas/indexcomparabancos",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
             }
         ]
     },
@@ -192,18 +186,6 @@
             {
                 "item": "Proveedores",
                 "ruta": "/proveedor/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Sucursales",
-                "ruta": "/sucursales/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Marcas",
-                "ruta": "/marcas/index",
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
             },

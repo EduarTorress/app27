@@ -59,7 +59,7 @@ class LoginController extends Controller
             $_SESSION['opigv'] = 'I';
             $ser = new Serie();
             cargarconfig();
-            $ser->obtenerSerieDadoAlma($request->get("cmbAlmacen"));
+            $ser->obtenerSerieDadoAlma(obtenercodigoisla());
             $multiempresa = (empty($_SESSION['config']['multiempresa']) ? 'N' : $_SESSION['config']['multiempresa']);
             if ($multiempresa == 'N') {
                 datosglobales();

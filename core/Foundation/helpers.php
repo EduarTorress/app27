@@ -145,7 +145,6 @@ function obtenercodigoisla()
 function datosglobalesmulti($codt)
 {
     $empresa = new Modelo();
-
     $rs = $empresa->datosempresamulti($codt);
     $i = 0;
     foreach ($rs as $r) {

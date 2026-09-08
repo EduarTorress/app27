@@ -14,10 +14,10 @@ class UnidadComponent extends Component
     }
     function render()
     {
-        // $unidad = new Unidad();
-        // $lista = $unidad->listar();
-        $linkjson = file_get_contents('http://companiasysven.com/datasetunidades.json');
-        $json = json_decode($linkjson, true);
-        return view('components/unidad', ['lista' => $json['unidades'], 'idunid' => $this->idunid]);
+        $unidad = new Unidad();
+        $lista = $unidad->listar();
+        // $linkjson = file_get_contents('http://companiasysven.com/datasetunidades.json');
+        // $json = json_decode($linkjson, true);
+        return view('components/unidad', ['lista' => $lista['lista'], 'idunid' => $this->idunid]);
     }
 }
