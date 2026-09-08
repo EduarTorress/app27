@@ -1382,9 +1382,9 @@ class Imprimir
         $pdf->SetFont('Arial', 'B', 9);
         $pdf->MultiCell(70, 4, trim($this->direccionempresa), 0, 'C');
         $pdf->setx(5);
-        $pdf->MultiCell(70, 4, 'EMAIL: ' . trim($_SESSION['gene_correo']), 0, 'C');
-        $pdf->setx(5);
-        $pdf->MultiCell(70, 4, 'CELULAR: ' . trim($_SESSION['gene_fono']), 0, 'C');
+        // $pdf->MultiCell(70, 4, 'EMAIL: ' . trim($_SESSION['gene_correo']), 0, 'C');
+        // $pdf->setx(5);
+        // $pdf->MultiCell(70, 4, 'CELULAR: ' . trim($_SESSION['gene_fono']), 0, 'C');
 
         // datos de la venta
         $pdf->Ln(2);
