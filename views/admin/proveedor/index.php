@@ -68,6 +68,7 @@ $this->startSection('javascript');
     window.onload = function() {
         document.getElementById("txtbuscar").focus();
         titulo("<?php echo $titulo ?>");
+        $(".divubigeos").css("display", "none");
         // console.log($(".dropdown-toggle").hasAttribute('style'))
     }
 

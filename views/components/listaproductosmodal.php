@@ -11,7 +11,7 @@
         <?php $tds = cargarsucursalestbody(); ?>
         <?php foreach ($lista['lista']['items'] as $item) : ?>
             <tr style="font-size: 10px;">
-                <td><?php echo $item['descri'] . ' - ' . $item['marca'] ?></td>
+                <td><?php echo $item['descri'] ?></td>
                 <td><?php echo $item['unid'] ?></td>
                 <td class="text-end"><?php echo $item['pre1'] ?></td>
                 <td class="text-center" id="iniciarp" style="font-size:10px;">

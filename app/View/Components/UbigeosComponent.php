@@ -17,7 +17,6 @@ class UbigeosComponent extends Component
     function render()
     {
         $ubigeos = listarubigeos();
-        
         return view('components/ubigeos', ['ubigeos' => $ubigeos, "modo" => $this->modo, "ubigeo" => $this->ubigeo]);
     }
 }

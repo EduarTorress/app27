@@ -65,7 +65,7 @@ class Proveedor extends Modelo
         $lista = array();
         $data = ['resultado' => false];
         $lista['items'] = array();
-        $csql = "SELECT idprov,razo,nruc,ndni,dire,ciud,ubig FROM fe_prov WHERE razo LIKE :abuscar and prov_acti='A'";
+        $csql = "SELECT idprov,razo,nruc,ndni,dire,ciud FROM fe_prov WHERE razo LIKE :abuscar and prov_acti='A'";
         $query = $this->prepare($csql);
         try {
             $query->execute(['abuscar' => $cbuscar]);
@@ -78,7 +78,7 @@ class Proveedor extends Modelo
                         "ndni" => $row['ndni'],
                         "dire" => $row['dire'],
                         "ciud" => $row['ciud'],
-                        "ubig" => $row['ubig']
+                        "ubig" => ''
                     );
                     array_push($lista["items"], $item);
                 }
@@ -123,7 +123,7 @@ class Proveedor extends Modelo
                         "prov_actu" => $row['prov_actu'],
                         "fechprov" => $row['fechprov'],
                         "prov_feac" => $row['prov_feac'],
-                        "ubig" => $row['ubig']
+                        "ubig" => ''
                     );
                     array_push($lista["items"], $item);
                 }
@@ -189,7 +189,7 @@ class Proveedor extends Modelo
     }
     function save()
     {
-        $sql = "INSERT INTO fe_prov (razo, nruc, ndni,dire,ciud,ubig,prov_idus,fechprov) VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,:txtUbigeo,:idusua,now())";
+        $sql = "INSERT INTO fe_prov (razo, nruc, ndni,dire,ciud,prov_idus,fechprov) VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,:idusua,now())";
         $query = $this->prepare($sql);
         $query->execute([
             'txtNombre' => $this->txtNombre,
@@ -197,7 +197,6 @@ class Proveedor extends Modelo
             'txtDNI' => $this->txtDNI,
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
-            'txtUbigeo' => $this->txtUbigeo,
             'idusua' => $_SESSION['usuario_id']
         ]);
         if ($query->errorCode() != '00000') {
@@ -210,7 +209,7 @@ class Proveedor extends Modelo
     function update($id)
     {
         $sql = "UPDATE fe_prov SET razo=:txtNombre,nruc=:txtRUC,ndni=:txtDNI,dire=:txtDireccion,ciud=:txtCiudad,
-                ubig=:txtUbigeo,prov_actu=:idusua,prov_feac=now()
+                prov_actu=:idusua,prov_feac=now()
                 WHERE idprov=:txtID ";
         $query = $this->prepare($sql);
         $query->execute([
@@ -219,7 +218,6 @@ class Proveedor extends Modelo
             'txtNombre' => $this->txtNombre,
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
-            'txtUbigeo' => $this->txtUbigeo,
             'txtID' => $id,
             'idusua' => $_SESSION['usuario_id']
         ]);

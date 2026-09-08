@@ -265,7 +265,7 @@ class Ventas extends Modelo
             c.ndni,rcom_otro,kar_cost AS costoref,deta, 'PE' AS pais,r.igv,CAST(0 AS DECIMAL(12,2)) AS tdscto,
             CAST(0 AS DECIMAL(12,2)) AS Tisc, impo,CAST(0 AS DECIMAL(12,2)) AS montoper,k.incl,p.nomv AS vendedor,
             CAST(0 AS DECIMAL(12,2)) AS totalpercepcion,k.cant,k.prec,LEFT(r.ndoc,4) AS serie, SUBSTR(r.ndoc,5) AS numero,0 AS rcom_idan ,
-            a.unid,concat(a.descri,'-',m.dmar) as descri,k.idart AS coda, IFNULL(unid_codu,'NIU')AS unid1,s.codigoestab,r.form,v.gene_usol,v.gene_csol,
+            a.unid,a.descri as descri,k.idart AS coda, IFNULL(unid_codu,'NIU')AS unid1,s.codigoestab,r.form,v.gene_usol,v.gene_csol,
             'PE' AS pais, v.gene_cert,v.clavecertificado,IFNULL(p.fevto,r.fech) AS fvto,k.incl,us.nomb as usuario"
                 . ($ventascondescuento == 'S' ? ' ,rcom_desc,kar_desc ' : ' ') . "
             FROM fe_rcom r 
@@ -496,7 +496,7 @@ class Ventas extends Modelo
         a.idart As Coda, a.cant As cant, a.Prec As prec, c.valor  As valor,c.rcom_exon,
         c.igv As igv, c.Impo As impo, c.fech As fech, c.fecr As fecr, c.Form As form, c.Deta As deta,
         c.exon As exon,c.Ndo2 As ndo2, c.rcom_entr As rcom_entr,c.idcliente As idclie, d.razo As razo, d.nruc As nruc,
-        d.Dire As Dire, d.ciud As ciud, d.ndni As ndni, a.tipo As tipo, c.Tdoc As tdoc, c.Ndoc As ndoc, c.dolar As dolar,c.Mone As mone, concat(b.Descri,'-',m.dmar) As descri,
+        d.Dire As Dire, d.ciud As ciud, d.ndni As ndni, a.tipo As tipo, c.Tdoc As tdoc, c.Ndoc As ndoc, c.dolar As dolar,c.Mone As mone, b.Descri As descri,
         IFNULL(xx.idcaja,0) As idcaja, b.Unid As unid, b.premay As pre1, b.tipro As tipro,
         b.peso As peso, b.premen As pre2,IFNULL(z.vend_idrv,0) As nidrv, c.vigv As vigv, a.dsnc As dsnc, a.dsnd As dsnd,a.gast As gast, c.idcliente As idcliente,
         c.codt As codt, b.pre3 As pre3,b.cost As costo, b.uno As uno,b.Dos As Dos,b.tre,b.cua,(b.uno + b.Dos+b.tre+b.cua+a.cant) As TAlma,

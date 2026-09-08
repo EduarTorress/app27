@@ -39,7 +39,7 @@ class Cliente extends Modelo
                         "dire" => $row['dire'],
                         "ciud" => $row['ciud'],
                         "ndni" => $row['ndni'],
-                        "ubig" =>  $row['ubig'],
+                        "ubig" =>  '',
                         'clie_rete' => 'N'
                     );
                     array_push($lista["items"], $item);
@@ -145,7 +145,7 @@ class Cliente extends Modelo
     }
     function save()
     {
-        $sql = "INSERT INTO fe_clie (razo,nruc,ndni,dire,ciud,ubig,fechclie,clie_idus) VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,:txtUbigeo,now(),:idusua)";
+        $sql = "INSERT INTO fe_clie (razo,nruc,ndni,dire,ciud,fechclie,clie_idus) VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,now(),:idusua)";
         $query = $this->prepare($sql);
         $query->execute([
             'txtNombre' => $this->txtNombre,
@@ -153,7 +153,6 @@ class Cliente extends Modelo
             'txtDNI' => $this->txtDNI,
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
-            'txtUbigeo' => $this->txtUbigeo,
             'idusua' => $_SESSION['usuario_id']
         ]);
         if ($query->errorCode() != '00000') {
@@ -165,7 +164,7 @@ class Cliente extends Modelo
     }
     function update($id)
     {
-        $sql = "UPDATE fe_clie SET razo=:txtNombre,nruc=:txtRUC,ndni=:txtDNI,dire=:txtDireccion,ciud=:txtCiudad,ubig=:txtUbigeo,
+        $sql = "UPDATE fe_clie SET razo=:txtNombre,nruc=:txtRUC,ndni=:txtDNI,dire=:txtDireccion,ciud=:txtCiudad,
         clie_actu=:idusua,clie_feac=now() WHERE idclie=:txtID ";
         $query = $this->prepare($sql);
         $query->execute([
@@ -174,7 +173,6 @@ class Cliente extends Modelo
             'txtNombre' => $this->txtNombre,
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
-            'txtUbigeo' => $this->txtUbigeo,
             'txtID' => $id,
             'idusua' => $_SESSION['usuario_id']
         ]);

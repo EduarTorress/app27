@@ -1,4 +1,4 @@
-<div class="form-group row">
+<div class="form-group row divubigeos">
     <label class="col-sm-4 col-form-label" for="">Ubigeo:</label>
     <div class="col-sm-8">
         <select name="cmbUbigeo" id="cmbUbigeo"  data-width="100%" class="selectpicker" data-live-search="true">

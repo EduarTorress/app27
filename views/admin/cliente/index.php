@@ -76,6 +76,7 @@ $this->startSection('javascript');
     window.onload = function() {
         document.getElementById("txtbuscar").focus();
         titulo("<?php echo $titulo ?>");
+        $(".divubigeos").css("display", "none");
     }
 
     function buscar() {
