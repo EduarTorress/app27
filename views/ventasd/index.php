@@ -1004,6 +1004,7 @@ $this->startSection('javascript');
             });
         $("#grabar").prop("disabled", false).removeClass("bloqueado-edicion");
         $("#cancelar").prop("disabled", false).removeClass("bloqueado-edicion");
+        $("#txtreferencia").prop("disabled", false).removeClass("bloqueado-edicion");
     }
 </script>
 <?php
