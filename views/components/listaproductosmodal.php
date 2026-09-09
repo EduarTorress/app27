@@ -13,7 +13,7 @@
             <tr style="font-size: 10px;">
                 <td><?php echo $item['descri'] ?></td>
                 <td><?php echo $item['unid'] ?></td>
-                <td class="text-end"><?php echo $item['pre1'] ?></td>
+                <td class="text-end"><?php echo number_format($item['pre1'], 2, ',', '.') ?></td>
                 <td class="text-center" id="iniciarp" style="font-size:10px;">
                     <?php
                     // $parametro1 = $item['descri'];
@@ -39,11 +39,11 @@
                     } else {
                         $parametro4 = $item['uno'] + $item['dos'] + $item['tre'] + $item['cua'];
                     }
-                    if ($item['tipro'] == 'K') {
-                        $parametro5 = $item['pre1'];
-                    } else {
-                        $parametro5 = $item['costo'];
-                    }
+                    // if ($item['tipro'] == 'K') {
+                    $parametro5 = $item['pre1'];
+                    // } else {
+                    //     $parametro5 = $item['costo'];
+                    // }
                     $parametro6 = $item['pre2'];
                     if (empty($_SESSION['config']['precioespecial'])) {
                         $parametro7 = $item['prec'];

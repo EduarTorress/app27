@@ -627,7 +627,19 @@ function focustablaproducto(tbl) {
       fnCreatedRow: function (rowEl, data) {
         $(rowEl).attr("id", data[0]);
       },
+      drawCallback: function (settings) {
+        var api = this.api();
+        var pageInfo = api.page.info();
+
+        // Si el total de registros cabe en una sola página (por defecto 10), oculta la paginación
+        if (pageInfo.recordsTotal <= pageInfo.length) {
+          $(this).closest('.dataTables_wrapper').find('.dataTables_paginate').hide();
+        } else {
+          $(this).closest('.dataTables_wrapper').find('.dataTables_paginate').show();
+        }
+      }
     });
+
     $('thead').css({
       color: "white",
       "background-color": "#03326a"
@@ -656,6 +668,7 @@ function focustablaproducto(tbl) {
         // $("#iniciarp").blur();
       }
     });
+
   });
   $("#txtbuscarProducto").on("click", function () {
     $("#txtbuscarProducto").select();
