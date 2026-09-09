@@ -545,10 +545,12 @@ class CarritoService
         $valor = false;
         $carritov = \session()->get('carritov', []);
         foreach ($carritov as $item) {
-            if ($item['activo'] == 'A') {
-                if ($item['coda'] == $idart) {
-                    $valor = true;
-                    break;
+            if (!empty($item['activo'])) {
+                if ($item['activo'] == 'A') {
+                    if ($item['coda'] == $idart) {
+                        $valor = true;
+                        break;
+                    }
                 }
             }
         }

@@ -386,7 +386,8 @@ $this->startSection('javascript');
 
     $("#modal_productos").on("shown.bs.modal", function() {
         // moverCursorFinalTexto("txtbuscarProducto");
-        filastbl = document.getElementById("griddetalle").rows.length;
+        filastbl = document.getElementById("griddetalle tbody").rows.length;
+        console.log(filastbl)
         if (filastbl <= 1) {
             moverCursorFinalTexto("txtbuscarProducto");
         }

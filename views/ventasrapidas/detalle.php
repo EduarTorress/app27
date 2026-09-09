@@ -16,37 +16,39 @@
         <tbody id="carritoventas">
             <?php $i = 0; ?>
             <?php foreach ($carritov as $indice => $item) : ?>
-                <?php if ($item['activo'] == 'A') { ?>
-                    <tr onkeyup="verificarValores(this); actualizarProducto(this,<?php echo $indice ?>,event);" onblur="actualizarProducto(this,<?php echo $indice ?>,event);">
-                        <?php
-                        $parametro1 = $item['descripcion'];
-                        $parametro2 = $item['coda'];
-                        $parametro3 = $item['unidad'];
-                        $parametro4 = $item['stock'];
-                        $parametro5 = $item['precio1'];
-                        $parametro6 = $item['precio2'];
-                        $parametro7 = $item['precio3'];
-                        $parametro8 = $item['costo'];
-                        $parametro9 = $item['cantidad'];
-                        $parametro10 = $item['precio'];
-                        $parametro11 = $indice;
-                        $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro8', 'parametro9', 'parametro10', 'parametro11');
-                        $cadena_json = json_encode($parametros);
-                        ?>
-                        <td>
-                            <button class="btn btn-warning" onclick="quitaritem(<?php echo $indice ?>,<?php echo $item['coda']; ?>)"><a style="color:white" class="fas fa-trash-alt"></a></button>
-                        </td>
-                        <td class="codigo"><?php echo $item['coda'] ?></td>
-                        <td><?php echo $item['descripcion'] ?></td>
-                        <td><?php echo $item['unidad'] ?></td>
-                        <td class="text-center cantidad" onclick="funcionEnterCant(this,<?php echo $indice ?>)" contenteditable="false" name="cantidad"><input type="text" class="inputright" onkeyup="abrirmodalvtas(event)" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
-                        <td class="precio text-center" id="precio" contenteditable="false" name="precio"><input onkeypress="return isNumber(event);" readonly type="text" onkeyup="abrirmodalvtas(event)" class="inputright" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
-                        <td class="preciosgv text-center"></td>
-                        <td class="descuento text-end"></td>
-                        <td class="text-center" class="total"><input onclick="ubicacionfocus='subtotal';" type="text" class="inputright" onkeyup="abrirmodalvtas(event)" onkeypress="ubicacionfocus='subtotal'; return isNumber(event);" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
-                        <?php $i++; ?>
-                    </tr>
-                <?php } ?>
+                <?php if (!empty($item['activo'])): ?>
+                    <?php if ($item['activo'] == 'A') { ?>
+                        <tr onkeyup="verificarValores(this); actualizarProducto(this,<?php echo $indice ?>,event);" onblur="actualizarProducto(this,<?php echo $indice ?>,event);">
+                            <?php
+                            $parametro1 = $item['descripcion'];
+                            $parametro2 = $item['coda'];
+                            $parametro3 = $item['unidad'];
+                            $parametro4 = $item['stock'];
+                            $parametro5 = $item['precio1'];
+                            $parametro6 = $item['precio2'];
+                            $parametro7 = $item['precio3'];
+                            $parametro8 = $item['costo'];
+                            $parametro9 = $item['cantidad'];
+                            $parametro10 = $item['precio'];
+                            $parametro11 = $indice;
+                            $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro8', 'parametro9', 'parametro10', 'parametro11');
+                            $cadena_json = json_encode($parametros);
+                            ?>
+                            <td>
+                                <button class="btn btn-warning" onclick="quitaritem(<?php echo $indice ?>,<?php echo $item['coda']; ?>)"><a style="color:white" class="fas fa-trash-alt"></a></button>
+                            </td>
+                            <td class="codigo"><?php echo $item['coda'] ?></td>
+                            <td><?php echo $item['descripcion'] ?></td>
+                            <td><?php echo $item['unidad'] ?></td>
+                            <td class="text-center cantidad" onclick="funcionEnterCant(this,<?php echo $indice ?>)" contenteditable="false" name="cantidad"><input type="text" class="inputright" onkeyup="abrirmodalvtas(event)" onkeypress="return isNumber(event);" value="<?php echo number_format($item['cantidad'], 2, '.', '') ?>"></td>
+                            <td class="precio text-center" id="precio" contenteditable="false" name="precio"><input onkeypress="return isNumber(event);" readonly type="text" onkeyup="abrirmodalvtas(event)" class="inputright" value="<?php echo number_format($item['precio'], 2, '.', '') ?>"></td>
+                            <td class="preciosgv text-center"></td>
+                            <td class="descuento text-end"></td>
+                            <td class="text-center" class="total"><input onclick="ubicacionfocus='subtotal';" type="text" class="inputright" onkeyup="abrirmodalvtas(event)" onkeypress="ubicacionfocus='subtotal'; return isNumber(event);" value="<?php echo number_format(round($item['cantidad'] * $item['precio'], 2), 2, '.', '') ?>"></td>
+                            <?php $i++; ?>
+                        </tr>
+                    <?php } ?>
+                <?php endif; ?>
             <?php endforeach; ?>
         </tbody>
     </table>
@@ -64,7 +66,7 @@
                 </div>
             </div>
             <div class="col-2 align-items-start">
-               
+
             </div>
             <div class="col-2 align-items-start">
                 <div class="input-group mb-3" style="width: 85%;">
@@ -339,11 +341,11 @@
         validarvaloresporgrupo();
     }
 
-     $("#griddetalle tr:last td:eq(5) .inputright").on("keypress", function(evt) {
+    $("#griddetalle tr:last td:eq(5) .inputright").on("keypress", function(evt) {
         if (evt.key === "Enter") {
-              $("#griddetalle tr:last td:eq(8) .inputright").click();
-              $("#griddetalle tr:last td:eq(8) .inputright").select();
-              $("#griddetalle tr:last td:eq(8) .inputright").focus();
+            $("#griddetalle tr:last td:eq(8) .inputright").click();
+            $("#griddetalle tr:last td:eq(8) .inputright").select();
+            $("#griddetalle tr:last td:eq(8) .inputright").focus();
         }
     });
 
