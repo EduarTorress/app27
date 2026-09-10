@@ -438,24 +438,20 @@
             var id = _tr.find("td").eq(1).html();
             var cant = _tr.find("td").eq(4).find("input").val();
             var precio = _tr.find("td").eq(5).find("input").val();
-
             const resultado = premiun.find(elemento => elemento.coda == id);
             cmbmoneda = $("#cmbmoneda").val();
-
             <?php if (empty($_SESSION['config']['precioespecial'])) : ?>
                 precios = [Number(resultado.precio1), Number(resultado.precio2), Number(resultado.costo)];
                 precios.sort(function(a, b) {
                     return a - b
                 });
             <?php endif; ?>
-
             <?php if (!empty($_SESSION['config']['precioespecial'])) : ?>
                 precios = [Number(resultado.precio1), Number(resultado.precio2), Number(resultado.precio3), Number(resultado.costo)];
                 precios.sort(function(a, b) {
                     return a - b
                 });
             <?php endif; ?>
-
             if (cmbmoneda == 'D') {
                 preciomenor = (precios[0]) / Number("<?php echo $_SESSION["gene_dola"] ?>");
             } else {
