@@ -152,7 +152,7 @@ class NotasCredito extends Modelo
                 'n3' => session()->get("gene_idctat"),
                 'ntotal' => '-' . $this->ntotal,
                 'nidusua' => session()->get("usuario_id"),
-                'nidauto' => $this->nidauto,
+                'nidauto' =>$id,
                 'nidclie' => $this->nidclie,
                 'cform' => $this->cform,
                 'ctdoc' => $this->ctdoc
