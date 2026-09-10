@@ -9,6 +9,6 @@ class InicioController extends Controller
 {
   public function inicio()
   {
-    return view('layouts/admin');;
+    return view('layouts/admin');
   }
 }
