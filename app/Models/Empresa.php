@@ -65,7 +65,7 @@ class Empresa extends Modelo
         try {
             $ncon = new conexion();
             $pdo = $ncon->conectar();
-            $sqlgene = "update fe_gene set fech=:fech,dola=:dolar";
+            $sqlgene = "update fe_gene set fech=:fech,dola=:dolar,gene_nres=1,gene_nbaj=1,mes=MONTH(CURDATE())";
             $execgene = $pdo->prepare($sqlgene);
             $execgene->execute([
                 'fech' => $fech,
