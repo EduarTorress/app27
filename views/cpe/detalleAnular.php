@@ -17,16 +17,14 @@
                     <td><?php echo $item['fech'] ?></td>
                     <td><?php echo $item['razo'] ?></td>
                     <td><?php echo $item['mone'] ?></td>
-                    <td><?php echo number_format($item['importe'], 3, '.', ',') ?></td>
+                    <td><?php echo number_format($item['importe'], 2, '.', ',') ?></td>
                     <td class="text-center">
                         <a class="btn btn-danger" role="button" onclick="abrirModalEliminar('<?= $item['idauto'] ?>','<?= $item['ndoc'] ?>','<?= trim($item['estadoenviado']) ?>','<?= $item['tdoc'] ?>')">
                             <i class="fas fa-trash-alt"></i>
                         </a>
-                        <?php if ($cmbTipoMovimiento == 'V'): ?>
-                            <a class="btn btn-success" role="button" onclick="abrirModalBaja('<?= $item['idauto'] ?>','<?= $item['ndoc'] ?>','<?= trim($item['estadoenviado']) ?>','<?= trim($item['fech']) ?>','<?= $item['tdoc'] ?>')">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        <?php endif; ?>
+                        <a class="btn btn-success" role="button" onclick="abrirModalBaja('<?= $item['idauto'] ?>','<?= $item['ndoc'] ?>','<?= trim($item['estadoenviado']) ?>','<?= trim($item['fech']) ?>','<?= $item['tdoc'] ?>')">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -78,7 +76,7 @@ echo $cl->render();
 
     function abrirModalBaja(idauto, numeroDocumento, estado, dfecha, tdoc) {
         if (estado != '0') {
-            toastr.error("El comprobante  No esta Registrado en SUNAT; anular por la opción del costado", 'Mensaje del Sistema');
+            toastr.error("El comprobante no esta registrado en SUNAT, por lo tanto se debe anular por la opción del lado.", 'Mensaje del Sistema');
         } else {
             $("#modalbajaventa").modal("show");
             $("#lblBajaVenta").text("Dar de Baja : " + numeroDocumento)

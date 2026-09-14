@@ -1619,15 +1619,14 @@ class Ventas extends Modelo
     {
         $sql = "SELECT a.idauto,a.ndoc,a.fech,a.mone,b.razo,a.impo AS importe,a.idcliente AS codi,idauto,form,a.idusua AS idusuav,rcom_mens,LEFT(rcom_mens,1) AS estadoenviado,tdoc FROM
                 fe_rcom AS a JOIN fe_clie AS b ON(a.idcliente=b.idclie) WHERE a.ndoc=:num AND tdoc=:tdoc AND tipom=:tipom
-                and a.acti='A' and codt=:codt and impo<>0";
+                and a.acti='A'";
         $query = $this->prepare($sql);
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute([
             'num' => $num,
             'tdoc' => $tdoc,
-            'tipom' => $tipom,
-            'codt' => $_SESSION['idalmacen']
-        ]);
+            'tipom' => $tipom
+           ]);
         return $query;
     }
     function consultarVentasPorCliente($idCliente)
