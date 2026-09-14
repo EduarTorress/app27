@@ -660,7 +660,6 @@ $this->startSection('javascript');
             calcularsubtotal(_tr)
             detalle.push(obj)
         });
-        //console.log(detalle)
         return detalle;
     }
 

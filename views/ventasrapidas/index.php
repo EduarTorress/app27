@@ -212,7 +212,7 @@ $this->startSection('javascript');
             $(".tipodocumentos option[value='07']").remove();
             $(".tipodocumentos option[value='08']").remove();
             $(".tipodocumentos option[value='GI']").remove();
-            $('input[name="optradiosP"]').css('display','none');
+            $('input[name="optradiosP"]').css('display', 'none');
         }).catch(function(error) {
             toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
         });
@@ -536,6 +536,25 @@ $this->startSection('javascript');
         return true;
     }
 
+    function verificarvalorescarrito() {
+        ubicacionfocus = 'subtotal';
+        const detalle = []
+        json = "";
+        $('#griddetalle tbody tr').each(function() {
+            var _tr = $(this);
+            var id = _tr.find("td").eq(1).html();
+            var cant = _tr.find("td").eq(4).find("input").val();
+            var precio = _tr.find("td").eq(5).find("input").val();
+            json += ',"id":"' + id + '"'
+            json += ',"cant":"' + cant + '"'
+            json += ',"precio":"' + precio + '"'
+            obj = JSON.parse('{' + json.substr(1) + '}');
+            calcularsubtotal(_tr)
+            detalle.push(obj)
+        });
+        return detalle;
+    }
+
     function preregistro() {
         importe = $("#total").val();
         if (importe == "0.00") {
@@ -551,8 +570,24 @@ $this->startSection('javascript');
             $("#btngrabar").removeAttr("disabled");
             return;
         }
-        cmensaje = '¿Registrar Venta?';
-        grabar(cmensaje);
+        calcularIGV();
+        valorescarrito = verificarvalorescarrito();
+        const data = new FormData();
+        data.append("detalle", JSON.stringify(valorescarrito));
+        axios.post('/vtas/verificarvalorescarrito', data)
+            .then(function(respuesta) {
+                rpta = respuesta.data.estado;
+                if (rpta == '1') {
+                    total = $("#total").val();
+                    cmensaje = '¿Registrar Venta? <br>' + 'El monto total es: ' + 'S/ ' + total;
+                    grabar(cmensaje);
+                } else {
+                    toastr.warning("Ocurrió un error de conexión a internet. Vuelva a intentarlo", 'Mensaje del Sistema')
+                }
+            }).catch(function(error) {
+                toastr.warning("Ocurrió un error de conexión a internet. Vuelva a intentarlo", 'Mensaje del Sistema')
+                console.log(error);
+            });
     }
 
     function changedetaildolar() {
@@ -606,6 +641,7 @@ $this->startSection('javascript');
     }
 
     function grabar(cmensaje) {
+        $("#btngrabar").attr("disabled", "disabled");
         txtpago = $("#txtpago").val();
         txtefectivo = $("#txtefectivo").val();
         total = $("#total").val();
@@ -628,7 +664,7 @@ $this->startSection('javascript');
         let fecha = new Date(anio, mes - 1, dia);
         fecha.setDate(fecha.getDate() + 1);
         let nuevaFechaString = fecha.toISOString().split('T')[0];
-        console.log(nuevaFechaString);
+        // console.log(nuevaFechaString);
         data.append("fechvv", nuevaFechaString);
         let tigv = obtenerTipoIGV();
         data.append("optigv", tigv);
@@ -659,7 +695,6 @@ $this->startSection('javascript');
                             req.responseType = "blob";
                             req.onload = function(event) {
                                 var blob = req.response;
-                                // console.log(blob.size);
                                 var link = document.createElement('a');
                                 link.href = window.URL.createObjectURL(blob);
                                 link.download = respuesta.data.ndoc + ".pdf"
@@ -669,7 +704,6 @@ $this->startSection('javascript');
                         } else {
                             $("#pdfguia").attr("src", url)
                             $("#abrirguia").click();
-                            // $("#exampleModal").modal('hide');
                         }
                     }
                 };
@@ -678,7 +712,6 @@ $this->startSection('javascript');
             }).catch(function(error) {
                 console.log(error);
                 $("#btngrabar").removeAttr("disabled");
-                // mostrarerroresvalidacion(error);
             });
     }
 
