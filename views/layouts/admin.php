@@ -231,7 +231,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Aplicacion -->
     <script src="js/app.js"> </script>
-    <script src="https://companiasysven.com/jsgeneral/index.js"></script>
+    <script src="https://companiasysven.com/jsgeneral/index.js?fecha='<?php echo date('d'); ?>'"></script>
     <!-- para compornentes React -->
     <script type="module" src="js/fechas.js"></script>
     <?php echo $this->section('javascript') ?>
