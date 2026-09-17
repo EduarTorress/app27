@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Categoria;
 use App\Models\Compra;
+use App\Models\CtasporCobrar;
 use App\Models\GuiaRemitente;
 use App\Models\GuiaTransportista;
 use App\Models\Pedido;
@@ -551,6 +552,7 @@ class VentasController extends Controller
         session()->remove('idventa');
         session()->remove('idcliev');
         session()->remove('razov');
+        session()->remove('txtcreditocliente');
         session()->remove('ruccliev');
         session()->remove('tdocv');
         session()->remove('cndocv');
@@ -580,6 +582,23 @@ class VentasController extends Controller
         if (!validardiasadelantocpe($request->get("fechv"))) {
             return response()->json(['errors' => 'No se puede emitir una venta con un día de adelanto'], 422);
         }
+        $validarcreditoxcliente = (empty($_SESSION['config']['validarcreditoxcliente']) ? 'N' : $_SESSION['config']['validarcreditoxcliente']);
+        if ($validarcreditoxcliente == 'S') {
+            if ($request->get('formv') == 'C') {
+                if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
+                    return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
+                }
+                $ctas = new CtasporCobrar();
+                $lista = $ctas->vencimientosporcliente($request->get("idcliev"), '2025-01-01', date('Y-m-d'));
+                $importedeuda = array_column($lista['lista']['items'], 'importe');
+                $totaldeuda = array_sum($importedeuda);
+                $totalcreditoconventa = floatval($totaldeuda) + floatval(CarritoService::totalVenta());
+                if (floatval($request->get('txtcreditocliente') < $totalcreditoconventa)) {
+                    return response()->json(['errors' => ['Excede del limite de crédito establecido a ese cliente:  ' . $request->get('txtcreditocliente')]], 422);
+                }
+            }
+        }
+        return;
         // if (!empty($request->get("creditosporcuotas"))) {
         //     $creditosporcuotas = json_decode($request->get("creditosporcuotas"));
         //     $creditosporcuotas = json_decode(json_encode($creditosporcuotas), true);
@@ -666,6 +685,22 @@ class VentasController extends Controller
         $ventascondescuento = (empty($_SESSION['config']['ventascondescuento']) ? 'N' : $_SESSION['config']['ventascondescuento']);
         if ($ventascondescuento == 'S') {
             $descuentogeneral = $request->get('descuentogeneral');
+        }
+        $validarcreditoxcliente = (empty($_SESSION['config']['validarcreditoxcliente']) ? 'N' : $_SESSION['config']['validarcreditoxcliente']);
+        if ($validarcreditoxcliente == 'S') {
+            if ($request->get('formv') == 'C') {
+                if (floatval(CarritoService::totalVenta()) > floatval($request->get('txtcreditocliente'))) {
+                    return response()->json(['errors' => ['El limite máximo de crédito para ese cliente es: ' . $request->get('txtcreditocliente')]], 422);
+                }
+                $ctas = new CtasporCobrar();
+                $lista = $ctas->vencimientosporcliente($request->get("idcliev"), '2025-01-01', date('Y-m-d'));
+                $importedeuda = array_column($lista['lista']['items'], 'importe');
+                $totaldeuda = array_sum($importedeuda);
+                $totalcreditoconventa = floatval($totaldeuda) + floatval(CarritoService::totalVenta());
+                if (floatval($request->get('txtcreditocliente') < $totalcreditoconventa)) {
+                    return response()->json(['errors' => ['Excede del limite de crédito establecido a ese cliente:  ' . $request->get('txtcreditocliente')]], 422);
+                }
+            }
         }
         $numeroDocumento = $_SESSION['nroventa'];
         $venta = new Ventas();
@@ -1899,5 +1934,28 @@ class VentasController extends Controller
         //     $compras = new Compra();
         //     $listado = $compras->mostrarcomprasdetalladas($dfi, $dff, $cmbalmacen, $cmbFormaP, $cmbtdoc);
         // }
+    }
+    function indexlistaclientesfrecuentes()
+    {
+        return \view('ventasd/informes/indexlistaclientesfrecuentes', ['titulo' => 'Clientes más frecuentes']);
+    }
+    function listaclientesfrecuentes(Request $request)
+    {
+        $dfi = $request->get('dfechai');
+        $dff = $request->get('dfechaf');
+        $codt = $request->get('cmbalmacen');
+        $cmbForma = $request->get('cmbForma');
+        $venta = new Ventas();
+        $lista = $venta->listarclientesfrecuentes($dfi, $dff, $codt, $cmbForma);
+        $e = 0;
+        foreach ($lista as $lg) {
+            $lista[$e]['color'] = "rgb(" . rand(0, 255) . "," . rand(0, 255) . "," . rand(0, 255) . ")";
+            $e++;
+        }
+        return \view('ventasd/informes/listaclientesfrecuentes', [
+            'listado' => $lista,
+            'listagrafico1' => array_slice($lista, 0, 20),
+            'listagrafico2' => array_slice($lista, -20)
+        ]);
     }
 }

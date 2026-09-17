@@ -53,9 +53,15 @@ use App\View\Components\UbigeosComponent;
                 <select class="form-select-sm form-control form-control-sm cmbretencion" id="cmbretencion" name="cmbretencion">
                     <!-- <?php echo ($cmon == 'D' ? 'selected' : '') ?>  -->
                     <!-- <?php echo $modo == 'A' ? 'selected ' : ($cmon == 'S' ? 'selected' : '') ?>  -->
-                    <option  <?php echo ($modo != 'A' ?  'selected' : ($lista['clie_rete'] == 'S' ? 'selected' : '')) ?> value="S">Si Aplica</option>
+                    <option <?php echo ($modo != 'A' ?  'selected' : ($lista['clie_rete'] == 'S' ? 'selected' : '')) ?> value="S">Si Aplica</option>
                     <option <?php echo ($modo != 'A' ?  'selected' : ($lista['clie_rete'] == 'N' ? 'selected' : '')) ?> value="N">No Aplica</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-4 col-form-label" for="">Linea Crédito:</label>
+            <div class="col-sm-8">
+                <input type="text" name="txtcredito" id="txtcredito" class="form-control txtcredito" onkeypress="return isNumber(event);" onclick="$(this).select();" value="<?php echo ($modo == 'A' ?  $lista['clie_lcre'] : '0.00') ?>">
             </div>
         </div>
         <div class="modal-footer justify-content-between">

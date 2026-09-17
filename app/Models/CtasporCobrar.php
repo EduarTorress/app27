@@ -18,7 +18,7 @@ class CtasporCobrar extends Modelo
         try {
             $lista = array();
             $sql = "SELECT xx.idclie,v.importe,v.fevto,DATEDIFF(curdate(),v.fevto) AS dias, v.rcre_idrc,rr.rcre_fech AS fech,razo,
-            rr.rcre_idau AS idauto,rr.rcre_form AS form,rcre_codv AS idven,vv.nomv,
+            rr.rcre_idau AS idauto,'C' AS form,rcre_codv AS idven,vv.nomv,
             IFNULL(cc.ndoc,'') AS docd,IFNULL(cc.tdoc,'') AS tdoc,a.ndoc,
             a.mone,a.banc,a.tipo,a.dola,a.nrou,a.banco,a.idcred,a.fech AS fepd,v.ncontrol,a.estd,v.rcre_idrc   FROM (
             SELECT ncontrol,rcre_idrc,rcre_idcl,MAX(c.fevto ) AS  fevto ,ROUND(SUM((c.impo - c.acta )),2) AS  importe  FROM
@@ -27,7 +27,7 @@ class CtasporCobrar extends Modelo
             GROUP BY  c.ncontrol,r.rcre_idrc,r.rcre_idcl  HAVING (ROUND(SUM((c.impo - c.acta )),2) <> 0)) AS v
             INNER JOIN fe_clie AS  xx  ON xx.idclie =v.rcre_idcl 
             INNER JOIN fe_rcred AS rr ON rr.rcre_idrc =v.rcre_idrc
-            INNER JOIN fe_vend AS vv ON vv.idven =rr. rcre_codv  
+            left JOIN fe_vend AS vv ON vv.idven =rr. rcre_codv  
             LEFT JOIN
             (SELECT tdoc,ndoc,idauto FROM fe_rcom WHERE  acti='A' AND idcliente=:idclie) AS cc ON cc.idauto=rr. rcre_idau  
             INNER JOIN 	fe_cred AS a ON a.idcred=v.ncontrol where fech between :dfi and :dff order by fevto";
@@ -69,7 +69,7 @@ class CtasporCobrar extends Modelo
         } catch (PDOException $e) {
             $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar" . $e];
         }
-        return json_encode($data);
+        return ($data);
     }
     function listarcobranzastodo($formapago, $codt, $fecha)
     {
@@ -78,7 +78,7 @@ class CtasporCobrar extends Modelo
             //   And rcre_form='<<this.cformapago>>'
             //   And rcre_codt=<<This.Tienda>>
             //   a.fech<='<<df>>'
-            $f = ($formapago == '0') ? ' and rcre_form<>:formapago  ' : ' and rcre_form=:formapago ';
+            // $f = ($formapago == '0') ? ' and rcre_form<>:formapago  ' : ' and rcre_form=:formapago ';
             $a = ($codt == '0') ? ' and rcre_codt<>:codt  ' : ' and rcre_codt=:codt ';
             $sql = "Select idauto,c.nruc,c.razo As proveedor,c.idclie As codp,a.mone,If(a.mone='S',saldo,0) As tsoles,If(a.mone='D',saldo,0) As tdolar,
                         c.clie_idzo,ifnull(T.ndoc,a.ndoc) As ndoc,
@@ -86,19 +86,19 @@ class CtasporCobrar extends Modelo
                         (Select a.Ncontrol,Min(fevto) As fech,Sum(a.Impo-a.acta) As saldo
                         From fe_cred As a
                         INNER Join fe_rcred As xx  On xx.rcre_idrc=a.cred_idrc
-                        Where a.fech<=:fecha And a.Acti<>'I' and xx.rcre_Acti<>'I'" . $f . $a .
+                        Where a.fech<=:fecha And a.Acti<>'I' and xx.rcre_Acti<>'I'" . $a .
                 "Group By a.Ncontrol Having saldo<>0) As b
                         INNER Join fe_cred As a On a.idcred=b.Ncontrol
                         INNER Join fe_rcred As r On r.rcre_idrc=a.cred_idrc
                         INNER Join fe_clie As c On c.idclie=r.rcre_idcl
-                        INNER Join fe_vend As v On v.idven=r.rcre_codv
+                        left Join fe_vend As v On v.idven=r.rcre_codv
                         INNER Join fe_sucu As s On s.idalma=r.rcre_codt
                         Left Join (Select idauto,ndoc,tdoc,fech From fe_rcom Where Acti='A' And idcliente>0) As T On T.Idauto=r.rcre_idau
                         Order By diasvencidos desc";
             $exec = $this->prepare($sql);
             $exec->execute([
                 'fecha' => $fecha,
-                'formapago' => $formapago,
+                // 'formapago' => $formapago,
                 'codt' => $codt,
             ]);
             $lista = $exec->fetchAll(PDO::FETCH_ASSOC);
@@ -124,7 +124,7 @@ class CtasporCobrar extends Modelo
                     GROUP BY  c.ncontrol,r.rcre_idrc,r.rcre_idcl  HAVING (ROUND(SUM((c.impo - c.acta )),2) <> 0)) AS v
                     INNER JOIN fe_clie AS  xx  ON xx.idclie =v.rcre_idcl 
                     INNER JOIN fe_rcred AS rr ON rr.rcre_idrc =v.rcre_idrc
-                    INNER JOIN fe_vend AS vv ON vv.idven =rr. rcre_codv  
+                    left JOIN fe_vend AS vv ON vv.idven =rr. rcre_codv  
                     INNER JOIN fe_kar AS kk ON rr.`rcre_idau`=kk.idauto
                     INNER JOIN fe_art AS aa ON kk.idart=aa.idart
                     LEFT JOIN
@@ -152,7 +152,7 @@ class CtasporCobrar extends Modelo
 		    a.tipo,a.banc,ifnull(c.ndoc,'00000000000') as docd,a.mone as mond,a.estd,a.idcred as nr,b.rcre_idrc,dolar,
 		    b.rcre_codv as codv,b.rcre_idau as idauto,ifnull(c.tdoc,'00') as refe,d.nomv FROM fe_cred as a
 		    inner join fe_rcred as b ON(b.rcre_idrc=a.cred_idrc) left join fe_rcom as c ON(c.idauto=b.rcre_idau)
-		    inner join fe_vend as d ON(d.idven=b.rcre_codv)
+		    left join fe_vend as d ON(d.idven=b.rcre_codv)
 		    WHERE b.rcre_idcl=:idcliente AND a.mone=:cmbmoneda" . $a . "
 		    and a.acti<>'I' and rcre_acti<>'I' ORDER BY a.ncontrol,a.idcred,a.fech";
             $exec = $this->prepare($sql);
@@ -233,19 +233,19 @@ class CtasporCobrar extends Modelo
             //   And rcre_form='<<this.cformapago>>'
             //   And rcre_codt=<<This.Tienda>>
             //   a.fech<='<<df>>'
-            $f = ($formapago == '0') ? ' and rcre_form<>:formapago  ' : ' and rcre_form=:formapago ';
+            // $f = ($formapago == '0') ? ' and rcre_form<>:formapago  ' : ' and rcre_form=:formapago ';
             $a = ($codt == '0') ? ' and rcre_codt<>:codt  ' : ' and rcre_codt=:codt ';
             $sql = "SELECT c.idclie,c.razo AS cliente,SUM(saldo) AS tsoles
                     FROM
                     (SELECT a.Ncontrol,MIN(fevto) AS fech,SUM(a.Impo-a.acta) AS saldo
                     FROM fe_cred AS a
                     INNER JOIN fe_rcred AS xx  ON xx.rcre_idrc=a.cred_idrc
-                    WHERE a.fech<=:fecha AND a.Acti<>'I' AND xx.rcre_Acti<>'I'" . $f . $a .
+                    WHERE a.fech<=:fecha AND a.Acti<>'I' AND xx.rcre_Acti<>'I'" . $a .
                 "GROUP BY a.Ncontrol HAVING saldo<>0) AS b
                     INNER JOIN fe_cred AS a ON a.idcred=b.Ncontrol
                     INNER JOIN fe_rcred AS r ON r.rcre_idrc=a.cred_idrc
                     INNER JOIN fe_clie AS c ON c.idclie=r.rcre_idcl
-                    INNER JOIN fe_vend AS v ON v.idven=r.rcre_codv
+                    left JOIN fe_vend AS v ON v.idven=r.rcre_codv
                     INNER JOIN fe_sucu AS s ON s.idalma=r.rcre_codt
                     LEFT JOIN (SELECT idauto,ndoc,tdoc,fech FROM fe_rcom WHERE Acti='A' AND idcliente>0) AS T ON T.Idauto=r.rcre_idau
                     GROUP BY idclie
@@ -253,7 +253,7 @@ class CtasporCobrar extends Modelo
             $exec = $this->prepare($sql);
             $exec->execute([
                 'fecha' => $fecha,
-                'formapago' => $formapago,
+                // 'formapago' => $formapago,
                 'codt' => $codt,
             ]);
             $lista = $exec->fetchAll(PDO::FETCH_ASSOC);

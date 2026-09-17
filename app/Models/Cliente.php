@@ -16,6 +16,7 @@ class Cliente extends Modelo
     var $txtCiudad = "";
     var $txtUbigeo = "";
     var $clienterete = "";
+    var $txtcredito = "";
 
     function buscarClientes($buscar, $opt, $nid)
     {
@@ -40,7 +41,8 @@ class Cliente extends Modelo
                         "ciud" => $row['ciud'],
                         "ndni" => $row['ndni'],
                         "ubig" =>  '',
-                        'clie_rete' => 'N'
+                        'clie_rete' => 'N',
+                        'clie_lcre' => (empty($row['clie_lcre']) ? 0 : $row['clie_lcre'])
                     );
                     array_push($lista["items"], $item);
                 }
@@ -90,39 +92,6 @@ class Cliente extends Modelo
         }
         return $existe;
     }
-    function listar($cbuscar)
-    {
-        $lista = array();
-        $data = ['resultado' => false];
-        $lista['items'] = array();
-        $csql = "SELECT idclie,razo,nruc,ndni,dire,ciud, '' as ubig FROM fe_clie WHERE razo LIKE :abuscar and clie_acti='A'";
-        $query = $this->prepare($csql);
-        try {
-            $query->execute(['abuscar' => $cbuscar]);
-            if ($query->rowcount()) {
-                while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                    $item = array(
-                        "idclie" => $row['idclie'],
-                        "razo" => $row['razo'],
-                        "nruc" => $row['nruc'],
-                        "ndni" => $row['ndni'],
-                        "dire" => $row['dire'],
-                        "ciud" => $row['ciud'],
-                        "ubig" => $row['ubig'],
-                        'clie_rete' => ''
-                    );
-                    array_push($lista["items"], $item);
-                }
-                $data = array();
-                $data = ["estado" => true, 'lista' => $lista, 'mensaje' => 'Ok'];
-            } else {
-                $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "No hay resultados para mostrar"];
-            }
-        } catch (PDOException $e) {
-            $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar" . $e];
-        }
-        return $data;
-    }
     function buscarid($id)
     {
         $destinatario = array();
@@ -138,14 +107,15 @@ class Cliente extends Modelo
                 "dire" => $row['dire'],
                 "ciud" => $row['ciud'],
                 "ubig" => $row['ubig'],
-                'clie_rete' => $row['clie_rete']
+                'clie_rete' => 'N',
+                'clie_lcre' => (empty($row['clie_lcre']) ? 0 : $row['clie_lcre'])
             );
         }
         return $destinatario;
     }
     function save()
     {
-        $sql = "INSERT INTO fe_clie (razo,nruc,ndni,dire,ciud,fechclie,clie_idus) VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,now(),:idusua)";
+        $sql = "INSERT INTO fe_clie (razo,nruc,ndni,dire,ciud,fechclie,clie_idus,clie_lcre) VALUES (:txtNombre,:txtRUC,:txtDNI,:txtDireccion,:txtCiudad,now(),:idusua,:txtcredito)";
         $query = $this->prepare($sql);
         $query->execute([
             'txtNombre' => $this->txtNombre,
@@ -153,7 +123,8 @@ class Cliente extends Modelo
             'txtDNI' => $this->txtDNI,
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
-            'idusua' => $_SESSION['usuario_id']
+            'idusua' => $_SESSION['usuario_id'],
+            'txtcredito' => $this->txtcredito
         ]);
         if ($query->errorCode() != '00000') {
             var_dump($query->errorInfo());
@@ -165,7 +136,7 @@ class Cliente extends Modelo
     function update($id)
     {
         $sql = "UPDATE fe_clie SET razo=:txtNombre,nruc=:txtRUC,ndni=:txtDNI,dire=:txtDireccion,ciud=:txtCiudad,
-        clie_actu=:idusua,clie_feac=now() WHERE idclie=:txtID ";
+        clie_actu=:idusua,clie_feac=now(),clie_lcre=:txtcredito WHERE idclie=:txtID ";
         $query = $this->prepare($sql);
         $query->execute([
             'txtRUC' => $this->txtRUC,
@@ -174,7 +145,8 @@ class Cliente extends Modelo
             'txtDireccion' => $this->txtDireccion,
             'txtCiudad' => $this->txtCiudad,
             'txtID' => $id,
-            'idusua' => $_SESSION['usuario_id']
+            'idusua' => $_SESSION['usuario_id'],
+            'txtcredito' => $this->txtcredito
         ]);
         if ($query->errorCode() != '00000') {
             return false;
@@ -195,4 +167,38 @@ class Cliente extends Modelo
             return true;
         }
     }
+    //  function listar($cbuscar)
+    // {
+    //     $lista = array();
+    //     $data = ['resultado' => false];
+    //     $lista['items'] = array();
+    //     $csql = "SELECT idclie,razo,nruc,ndni,dire,ciud, '' as ubig FROM fe_clie WHERE razo LIKE :abuscar and clie_acti='A'";
+    //     $query = $this->prepare($csql);
+    //     try {
+    //         $query->execute(['abuscar' => $cbuscar]);
+    //         if ($query->rowcount()) {
+    //             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+    //                 $item = array(
+    //                     "idclie" => $row['idclie'],
+    //                     "razo" => $row['razo'],
+    //                     "nruc" => $row['nruc'],
+    //                     "ndni" => $row['ndni'],
+    //                     "dire" => $row['dire'],
+    //                     "ciud" => $row['ciud'],
+    //                     "ubig" => $row['ubig'],
+    //                     'clie_rete' => '',
+    //                     'clie_lcre' => (empty($row['clie_lcre']) ? 0 : $row['clie_lcre'])
+    //                 );
+    //                 array_push($lista["items"], $item);
+    //             }
+    //             $data = array();
+    //             $data = ["estado" => true, 'lista' => $lista, 'mensaje' => 'Ok'];
+    //         } else {
+    //             $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "No hay resultados para mostrar"];
+    //         }
+    //     } catch (PDOException $e) {
+    //         $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar" . $e];
+    //     }
+    //     return $data;
+    // }
 }

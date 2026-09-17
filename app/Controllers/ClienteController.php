@@ -40,7 +40,8 @@ class ClienteController extends Controller
             'ruc' => $request->get('ruc'),
             'txtdnicliente' => $request->get('txtdnicliente'),
             'txtdireccion' => $request->get('txtdireccion'),
-            'clienteretencion' => $request->get('clienteretencion')
+            'clienteretencion' => $request->get('clienteretencion'),
+            'txtcreditocliente' => empty($request->get('txtcreditocliente')) ? 0 : $request->get('txtcreditocliente')
         );
         \session()->set('cliente', $cliente);
         return response()->json([
@@ -53,11 +54,6 @@ class ClienteController extends Controller
         $opt = intval($request->get("option"));
         $lista = $this->cliente->buscarClientes($cbuscar, $opt, 0);
         return view('admin/cliente/listaclientes', ['lista' => $lista]);
-    }
-    function listarremitentes($cbuscar)
-    {
-        $lista = $this->cliente->listar($cbuscar);
-        return $lista;
     }
     function create()
     {
@@ -81,6 +77,7 @@ class ClienteController extends Controller
             $cliente->txtCiudad = $request->get('txtCiudad');
             $cliente->txtUbigeo = $request->get('cmbUbigeo');
             $cliente->clienterete = (empty($request->get('cmbretencion')) ? 'N' : $request->get('cmbretencion'));
+            $cliente->txtcredito = empty($request->get('txtcredito')) ? 0 : $request->get('txtcredito');
             if (!empty($request->get('txtRUC'))) {
                 $existe = $cliente->consultarclientexruc($request->get('txtRUC'));
                 if ($existe == "T") {
@@ -131,6 +128,8 @@ class ClienteController extends Controller
             $cliente->txtCiudad = $request->get('txtCiudad');
             $cliente->txtUbigeo = $request->get('cmbUbigeo');
             $cliente->clienterete = $request->get('cmbretencion');
+            $cliente->clienterete = (empty($request->get('cmbretencion')) ? 'N' : $request->get('cmbretencion'));
+            $cliente->txtcredito = empty($request->get('txtcredito')) ? 0 : $request->get('txtcredito');
             // if (!empty($request->get('txtRUC'))) {
             //     $existe = $cliente->consultarclientexruc($request->get('txtRUC'));
             //     if ($existe == "T") {
@@ -171,4 +170,9 @@ class ClienteController extends Controller
             return response()->json(['message' => 'Hubo un error' . $error->getMessage()], 500);
         }
     }
+    // function listarremitentes($cbuscar)
+    // {
+    //     $lista = $this->cliente->listar($cbuscar);
+    //     return $lista;
+    // }
 }

@@ -1626,7 +1626,7 @@ class Ventas extends Modelo
             'num' => $num,
             'tdoc' => $tdoc,
             'tipom' => $tipom
-           ]);
+        ]);
         return $query;
     }
     function consultarVentasPorCliente($idCliente)
@@ -2173,5 +2173,24 @@ class Ventas extends Modelo
         } catch (PDOException $e) {
             echo ('Error al Consultar' . $e->getMessage());
         }
+    }
+    function listarclientesfrecuentes($dfi, $dff, $cmbAlmacen, $cmbFormaP)
+    {
+        $a = ($cmbAlmacen == '0') ? ' and r.`codt`<>:cmbAlmacen  ' : ' and r.`codt`=:cmbAlmacen ';
+        $f = ($cmbFormaP == '0') ? ' and form<>:cmbFormaP  ' : ' and form=:cmbFormaP ';
+        $sql = "SELECT c.`idclie`,c.razo,SUM(valor) AS valor,SUM(igv) AS igv, SUM(impo) AS importe
+                FROM fe_rcom r
+                INNER JOIN fe_clie c ON r.`idcliente`=c.`idclie`
+                WHERE r.acti='A'and fech between :dfi and :dff AND c.`clie_acti`='A' AND impo>0" . $a . $f . "
+                GROUP BY c.`idclie` ORDER BY importe DESC";
+        $query = $this->prepare($sql);
+        $query->execute([
+            "dfi" => $dfi,
+            "dff" => $dff,
+            "cmbAlmacen" => $cmbAlmacen,
+            'cmbFormaP' => $cmbFormaP
+        ]);
+        $rs = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $rs;
     }
 }

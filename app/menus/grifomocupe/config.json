@@ -1,6 +1,7 @@
 [
    {
       "validarstock": "N",
-      "impresionticket": "S"
+      "impresionticket": "S",
+      "validarcreditoxcliente":"S"
    }
 ]

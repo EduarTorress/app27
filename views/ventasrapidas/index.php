@@ -50,6 +50,7 @@ echo $login->render();
                             <input type="hidden" id="txtdnicliente" value="">
                             <input type="hidden" id="txtidauto" value="">
                             <input type="hidden" id="txtclienteretencion" value="">
+                            <input type="hidden" id="txtcreditocliente" value="<?php echo isset($datosclientev['txtcreditocliente']) ?  $datosclientev['txtcreditocliente'] : 0 ?>">
                             <button class="btn btn-outline-light" role="button" data-bs-toggle="modal" data-bs-target="#modal_clientes"><i style="color:black" class="fas fa-user-alt"></i></button>
                             <button class="btn btn-outline-primary" role="button" onclick="mostrardatoscliente()"><i style="color:black" class="fa fa-address-card-o"></i></button>
                         </div><br>
@@ -623,6 +624,7 @@ $this->startSection('javascript');
         $("#txtidcliente").val("2");
         $("#txtefectivo").attr("readonly");
         $("#txtruccliente").val("");
+        $("#txtcreditocliente").val("0")
         $("#ndo2").val("");
         $("#cmbforma").val("E");
         // $("#cmbAlmacen").val("1");
@@ -675,6 +677,7 @@ $this->startSection('javascript');
         data.append("txtpago", txtpago);
         data.append("txtefectivo", txtefectivo);
         data.append("txtreferencia", $("#txtreferencia").val());
+        data.append("txtcreditocliente", $("#txtcreditocliente").val())
         axios.post("/vtas/registrar", data)
             .then(function(respuesta) {
                 $("#mdpreregistro").modal('hide');
@@ -710,6 +713,7 @@ $this->startSection('javascript');
                 xhr.send();
                 limpiardatos();
             }).catch(function(error) {
+                mostrarerroresvalidacion(error);
                 console.log(error);
                 $("#btngrabar").removeAttr("disabled");
             });

@@ -66,6 +66,8 @@ $this->startSection('javascript');
         titulo("<?php echo $titulo ?>");
         $("#cmbAlmacen").attr("disabled", false);
         $("#cmbAlmacen").val("<?php echo $_SESSION['idalmacen'] ?>");
+        $("#cmbForma").val("C");
+      $("#cmbForma").attr("disabled", true);
     }
 
     function search() {

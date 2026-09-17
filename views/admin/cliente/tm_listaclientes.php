@@ -22,7 +22,8 @@
                     $parametro4 = $item['ndni'];
                     $parametro5 = trim($item['dire']);
                     $parametro6 = $item['clie_rete'];
-                    $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6');
+                    $parametro7 = $item['clie_lcre'];
+                    $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6','parametro7');
                     $cadena_json = json_encode($parametros);
                     ?>
                     <button id="<?php echo "agregar" . $parametro1 ?>" class="btn btn-success" onclick='seleccionarcliente(<?php echo $cadena_json ?>);'><i href="" style="color:white;" class="fas fa-plus-circle"></i></button>

@@ -454,6 +454,8 @@ $app->router->post('/cliente/store', [\App\Controllers\ClienteController::class,
 $app->router->post('/cliente/update/{id}', [\App\Controllers\ClienteController::class, 'update']);
 $app->router->post('/cliente/darBaja/{id}', [\App\Controllers\ClienteController::class, 'darBaja']);
 $app->router->get('/cliente/lista', [\App\Controllers\ClienteController::class, 'lista']);
+$app->router->get("/vtas/indexlistaclientesfrecuentes", [\App\Controllers\VentasController::class, 'indexlistaclientesfrecuentes']);
+$app->router->get("/vtas/listaclientesfrecuentes", [\App\Controllers\VentasController::class, 'listaclientesfrecuentes']);
 $app->router->get('/destinatario/seleccionar', [\App\Controllers\GuiasController::class, 'seleccionadoDestinatario']);
 $app->router->get('/destinatario/lista', [\App\Controllers\GuiasController::class, 'buscarDestinatario']);
 

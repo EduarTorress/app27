@@ -37,6 +37,7 @@ echo $login->render();
                         <input type="hidden" id="txtdireccion" value="<?php echo isset($datosclientev['direcliev']) ?  $datosclientev['direcliev'] : '' ?>">
                         <input type="hidden" id="txtdnicliente" value="<?php echo isset($datosclientev['dnicliev']) ?  $datosclientev['dnicliev'] : '' ?>">
                         <input type="hidden" id="txtclienteretencion" value="<?php echo isset($datosclientev['clienteretencion']) ?  $datosclientev['clienteretencion'] : 'N' ?>">
+                        <input type="hidden" id="txtcreditocliente" value="<?php echo isset($datosclientev['txtcreditocliente']) ?  $datosclientev['txtcreditocliente'] : 0 ?>">
                         <input type="hidden" id="txtidauto" value="<?php echo isset($idventa) ? $idventa : 0 ?>">
                         <button class="btn btn-outline-primary" id="btnmdclientes" role="button"><i style="color:black" class="fas fa-user-alt"></i></button>
                         <button class="btn btn-outline-success" role="button" onclick="mostrardatoscliente()"><i style="color:black" class="fa fa-address-card-o"></i></button>
@@ -726,6 +727,7 @@ $this->startSection('javascript');
         $("#txtcliente").val("");
         $("#txtdias").val("");
         $("#titulo").val("Registrar venta");
+        $("#txtcreditocliente").val("0")
         $("#txtidcliente").val("0");
         $("#txtruccliente").val("0");
         $("#txtdnicliente").val("");
@@ -814,6 +816,7 @@ $this->startSection('javascript');
                 data.append("txtreferencia", $("#txtreferencia").val());
                 data.append("txtpago", $("#txtpago").val());
                 data.append("txtefectivo", $("#txtefectivo").val());
+                data.append("txtcreditocliente", $("#txtcreditocliente").val())
                 axios.post("/vtas/registrar", data)
                     .then(function(respuesta) {
                         toastr.success(respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc, 'Mensaje del Sistema');
@@ -897,6 +900,7 @@ $this->startSection('javascript');
                 data.append("txtpago", $("#txtpago").val());
                 data.append("txtefectivo", $("#txtefectivo").val());
                 data.append("txtreferencia", $("#txtreferencia").val());
+                data.append("txtcreditocliente", $("#txtcreditocliente").val())
                 axios.post("/vtas/actualizar", data)
                     .then(function(respuesta) {
                         toastr.success(' Se actualizo la venta satisfactoriamente ', 'Mensaje del Sistema');
