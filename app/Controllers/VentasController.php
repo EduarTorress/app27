@@ -598,7 +598,6 @@ class VentasController extends Controller
                 }
             }
         }
-        return;
         // if (!empty($request->get("creditosporcuotas"))) {
         //     $creditosporcuotas = json_decode($request->get("creditosporcuotas"));
         //     $creditosporcuotas = json_decode(json_encode($creditosporcuotas), true);
