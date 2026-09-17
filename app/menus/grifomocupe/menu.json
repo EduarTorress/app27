@@ -19,7 +19,7 @@
                 "item": "Notas de crédito",
                 "ruta": "/notascredito/index",
                 "class": "far fa-circle nav-icon",
-                "opt": "V"
+                "opt": "AV"
             },
             {
                 "item": "Informe de Ventas",
@@ -34,10 +34,10 @@
                 "opt": "A"
             },
             {
-                "item": "Clientes mas frecuentes",
-                "ruta": "/vtas/indexlistaclientesfrecuentes",
+                "item": "Operaciones Detalladas",
+                "ruta": "/operaciones/indexmovimientosdetallados",
                 "class": "far fa-circle nav-icon",
-                "opt": "A"
+                "opt": "AV"
             },
             {
                 "item": "Informe de Vtas x Cliente",
@@ -148,7 +148,7 @@
                 "opt": "A"
             },
             {
-                "item": "Kadex x Producto",
+                "item": "Kardex x Producto",
                 "ruta": "/inventarios/kardex",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
@@ -168,54 +168,6 @@
             {
                 "item": "Ingresos y Egresos",
                 "ruta": "/cajas/indexIngresosEgresos",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Comparar Bancos",
-                "ruta": "/cajas/indexcomparabancos",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            }
-        ]
-    },
-    {
-        "main": "Créditos",
-        "class": "fa fa-money",
-        "elementos": [
-            {
-                "item": "Cancelación de Créditos",
-                "ruta": "/cobranzas/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Lista de Créditos",
-                "ruta": "cobranzas/indexlistacobranzastodo",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Listar x Resumen ",
-                "ruta": "cobranzas/indexresumencreditos",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            }
-        ]
-    },
-    {
-        "main": "Cuentas x Pagar",
-        "class": "fas fa-credit-card",
-        "elementos": [
-            {
-                "item": "Vencimientos x Proveedor",
-                "ruta": "/pagosproveedor/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "A"
-            },
-            {
-                "item": "Resumen x Pagar",
-                "ruta": "pagosproveedor/indexlistarctasxpagartodo",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             }
@@ -244,18 +196,6 @@
                 "opt": "AV"
             },
             {
-                "item": "Sucursales",
-                "ruta": "/sucursales/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
-                "item": "Marcas",
-                "ruta": "/marcas/index",
-                "class": "far fa-circle nav-icon",
-                "opt": "AV"
-            },
-            {
                 "item": "Transportistas",
                 "ruta": "/transportista/index",
                 "class": "far fa-circle nav-icon",
@@ -266,6 +206,18 @@
                 "ruta": "/usuarios/index",
                 "class": "far fa-circle nav-icon",
                 "opt": "AV"
+            }
+        ]
+    },
+    {
+        "main": "Mantenimiento",
+        "class": "fa fa-window-close",
+        "elementos": [
+            {
+                "item": "Eliminar Comprobante",
+                "ruta": "/cpe/indexAnular",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
             }
         ]
     }

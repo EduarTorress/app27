@@ -148,7 +148,7 @@
                 "opt": "A"
             },
             {
-                "item": "Kadex x Producto",
+                "item": "Kardex x Producto",
                 "ruta": "/inventarios/kardex",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
