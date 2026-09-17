@@ -1071,7 +1071,7 @@ class Compra extends Modelo
             $f = ($cmbFormaP == '0') ? ' and form<>:cmbFormaP  ' : ' and form=:cmbFormaP ';
             $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbalmacen  ' : ' and codt=:cmbalmacen ';
             $tc = ($cmbtdoc == '0') ? ' and tdoc<>:cmbtdoc' : ' and tdoc=:cmbtdoc ';
-            $sql = "select  a.tdoc,a.ndoc,a.fech,c.razo as cliente,d.descri as producto,d.unid,e.cant,e.prec,a.mone,f.nomb as usuario,prod_cod1 as codigofabrica,
+            $sql = "select  a.tdoc,a.ndoc,a.fech,c.razo as cliente,d.descri as producto,d.unid,e.cant,e.prec,a.mone,f.nomb as usuario,
 			    ifnull(l.dcat,'') as categoria,ifnull(desgrupo,'') as grupo,ifnull(m.dmar,'') as marca,
 			    ifnull(prod_acti,'') as estado,round(if(d.tmon='S',(d.prec*z.igv)+b.prec,(d.prec*z.igv*z.dola)+b.prec),2) as costo,
 			    e.cant*e.prec as impo,a.form,c.nruc,c.ndni,d.idart,a.fusua as hora,a.igv,a.valor
