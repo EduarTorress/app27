@@ -32,6 +32,9 @@ class Correlativo extends Modelo
                 case '07':
                     $cletra = 'FN';
                     break;
+                case 'VM':
+                    $cletra = 'VM';
+                    break;
             }
             $serie = array();
             $lsql = "SELECT nume,items,idserie FROM fe_serie WHERE serie=:nserie AND tdoc=:ctdoc limit 1";

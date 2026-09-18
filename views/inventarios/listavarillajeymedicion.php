@@ -27,5 +27,6 @@
     </tbody>
 </table>
 <script>
-    reportetablebt("#table");
+    titulo = "<?php echo $_SESSION['gene_empresa']?>\nComparativa de Varillaje y Medición: <?php echo date('d/m/Y') ?>"
+    reportetablebt("#table", titulo);
 </script>
