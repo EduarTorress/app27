@@ -122,7 +122,7 @@ echo $login->render();
             </div>
             <div class="row">
                 <div class="col-sm-4">
-                    <input type="text" class="form-control form-control-sm" name="txtreferencia" placeholder="Referencia" id="txtreferencia" value="<?php echo (isset($datosclientev['txtreferencia']) ? $datosclientev['txtreferencia'] : '') ?>">
+                    <input type="text" class="form-control form-control-sm" name="txtreferencia" placeholder="Referencia" id="txtreferencia" value="<?php echo (isset($datosclientev['txtreferencia']) ? trim($datosclientev['txtreferencia']) : '') ?>">
                 </div>
             </div>
         </div>
@@ -1007,7 +1007,7 @@ $this->startSection('javascript');
             });
         $("#grabar").prop("disabled", false).removeClass("bloqueado-edicion");
         $("#cancelar").prop("disabled", false).removeClass("bloqueado-edicion");
-        $("#txtreferencia").prop("disabled", false).removeClass("bloqueado-edicion");
+        $("#txtreferencia").prop("readonly", false).removeClass("bloqueado-edicion");
     }
 </script>
 <?php
