@@ -251,20 +251,9 @@ class Producto extends Modelo
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         try {
             $pdo->beginTransaction();
-            //     (ctdoc VARCHAR(2),cform CHAR,cndoc VARCHAR(12),dfecha DATE,dfechar DATE,cdetalle VARCHAR(120),
-            //     nv DECIMAL(12,2),nigv DECIMAL(12,2),nt DECIMAL(12,2),cndo2 VARCHAR(10),cm CHAR,
-            //     ndolar DECIMAL(6,4),ni DECIMAL(6,4),ctg CHAR,ccodp INTEGER,cmvto CHAR,nus INTEGER,opt INTEGER,nidcodt INTEGER,
-            //     n1 INTEGER,n2 INTEGER,n3 INTEGER,cdetalle1 VARCHAR(120),npvta DECIMAL(10,2))
 
             $tipocompraexon = (empty($_SESSION['config']['tipocompraexon']) ? 'N' : $_SESSION['config']['tipocompraexon']);
             if ($tipocompraexon == 'N') {
-
-            // CREATE DEFINER=`eduar`@`%.%.%.%` FUNCTION `FunIngresaCabeceraCV`(
-            // ctdoc VARCHAR(2),cform CHAR,cndoc VARCHAR(12),dfecha DATE,dfechar DATE,cdetalle VARCHAR(120),
-            // nv DECIMAL(12,2),nigv DECIMAL(12,2),nt DECIMAL(12,2),cndo2 VARCHAR(10),cm CHAR,
-            // ndolar FLOAT,ni FLOAT,ctg CHAR,ccodp INTEGER,cmvto CHAR,nus INTEGER,opt INTEGER,nidcodt INTEGER,
-            // n1 INTEGER,n2 INTEGER,n3 INTEGER,nisla INTEGER,npvta FLOAT) RETURNS INT(11)
-
                 $sqlIC = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,
                 :ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,:nidcodt,:npvta) AS id";
             } else {
@@ -317,18 +306,9 @@ class Producto extends Modelo
                     'cincl' => 'I',
                     'tmvto' => 'K',
                     'ccdov' => '0',
-                    'calma' => $cabecera['nidcodt'],
+                    'calma' => 0,
                     'nidcosto1' => '0',
                     'vcom' => '0'
-                ]);
-
-                $sqlAS = "CALL astock(:coda,:nalma,:ccant,:ctipo)";
-                $exeAS = $pdo->prepare($sqlAS);
-                $exeAS->execute([
-                    'coda' => $d['idart'],
-                    'nalma' => $cabecera['nidcodt'],
-                    'ccant' =>  $cant,
-                    'ctipo' => 'C'
                 ]);
             }
             Serie::aumentarcorrelativo($cabecera['idserie'], $pdo);
@@ -336,7 +316,80 @@ class Producto extends Modelo
             $data = ["mensaje" => 'Se ingreso correctamente el documento ' . $cabecera['cndoc'], 'estado' => '1'];
         } catch (PDOException $pdo_error) {
             $pdo->rollBack();
-            $data = ["mensaje" => 'Hubieron problemas al ingresar stock' . $pdo_error->getMessage(), 'estado' => '0'];
+            $data = ["mensaje" => 'Hubieron problemas al registrar varillaje y medición' . $pdo_error->getMessage(), 'estado' => '0'];
+        } finally {
+            $con->close();
+        }
+        return json_encode($data);
+    }
+    function registrarvarillajeymedicion($cabecera, $detalle)
+    {
+        $data = array();
+        $con = new conexion();
+        $pdo = $con->conectar();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        try {
+            $pdo->beginTransaction();
+
+            $tipocompraexon = (empty($_SESSION['config']['tipocompraexon']) ? 'N' : $_SESSION['config']['tipocompraexon']);
+            if ($tipocompraexon == 'N') {
+                $sqlIC = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,
+                :ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,:nidcodt,:npvta) AS id";
+            } else {
+                $sqlIC = "SELECT FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,:nv,:nigv,:nt,:cndo2,:cm,
+                :ndolar,:ni,:ctg,:ccodp,:cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,:nidcodt,:npvta,'0') AS id";
+            }
+            $exeIC = $pdo->prepare($sqlIC);
+            $exeIC->execute([
+                'ctdoc' => $cabecera['ctdoc'],
+                'cform' => $cabecera['cform'],
+                'cndoc' => $cabecera['cndoc'],
+                'dfecha' => $cabecera['dfecha'],
+                'dfechar' => $cabecera['dfechar'],
+                'cdetalle' => $cabecera['cdetalle'],
+                'nv' => $cabecera['nv'],
+                'nigv' => $cabecera['nigv'],
+                'nt' => $cabecera['nt'],
+                'cndo2' => $cabecera['cndo2'],
+                'cm' => $cabecera['cm'],
+                'ndolar' => $cabecera['ndolar'],
+                'ni' => $cabecera['ni'],
+                'ctg' => $cabecera['ctg'],
+                'ccodp' => $cabecera['ccodp'],
+                'cmvto' => $cabecera['cmvto'],
+                'nus' => $cabecera['nus'],
+                'opt' => $cabecera['opt'],
+                'nidcodt' => $cabecera['nidcodt'],
+                'n1' => 0,
+                'n2' => 0,
+                'n3' => 0,
+                'npvta' => $cabecera['npvta']
+            ]);
+
+            $id = $exeIC->fetchColumn();
+
+            foreach ($detalle as $d) {
+                $sqlIK = "SELECT FunIngresaVarillajeyMedicion(:idauto,:cc,:ctipo,:npr,:nct,:cincl,:tmvto,:ccdov,:calma,:stockactual) AS NID";
+                $exeIK = $pdo->prepare($sqlIK);
+                $exeIK->execute([
+                    'idauto' => $id,
+                    'cc' => $d['idart'],
+                    'ctipo' => '',
+                    'npr' => '0',
+                    'nct' => $d['ingreso'],
+                    'cincl' => 'I',
+                    'tmvto' => 'K',
+                    'ccdov' => '0',
+                    'calma' => 0,
+                    'stockactual' => $d['stock']
+                ]);
+            }
+            Serie::aumentarcorrelativo($cabecera['idserie'], $pdo);
+            $pdo->commit();
+            $data = ["mensaje" => 'Se ingreso correctamente el documento ' . $cabecera['cndoc'], 'estado' => '1'];
+        } catch (PDOException $pdo_error) {
+            $pdo->rollBack();
+            $data = ["mensaje" => 'Hubieron problemas al registrar varillaje y medición' . $pdo_error->getMessage(), 'estado' => '0'];
         } finally {
             $con->close();
         }

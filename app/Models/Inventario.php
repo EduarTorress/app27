@@ -190,4 +190,34 @@ class Inventario extends Modelo
         $listado = $query->fetchAll(PDO::FETCH_ASSOC);
         return $listado;
     }
+    function listarvarillajeymedicion($fechainicial, $fechafinal)
+    {
+        $sql = "SELECT
+                    fech as fecha,
+                    r.ndoc AS numero_documento,
+                    r.tdoc AS tipo_documento,
+                    k.idart AS id_producto,
+                    a.descri AS producto,
+                    k.kar_alma AS stock_antiguo,
+                    k.cant AS stock_ingresado,
+                    k.cant - k.kar_alma AS diferencia,
+                    u.nomb AS usuario,
+                    fusua
+                FROM fe_rcom r
+                INNER JOIN fe_kar k
+                    ON k.idauto = r.idauto
+                LEFT JOIN fe_usua u
+                    ON u.idusua = r.idusua
+                LEFT JOIN fe_art a
+                    ON a.idart = k.idart
+                WHERE tdoc='VM' AND r.acti='A' and fech between :fechainicial and :fechafinal";
+        $query = $this->prepare($sql);
+        $query->execute([
+            'fechainicial' => $fechainicial,
+            'fechafinal' => $fechafinal
+        ]);
+        $listado = $query->fetchAll(PDO::FETCH_ASSOC);
+        $data = ['mensaje' => 'Se obtuvieron los resultados correctamente', 'listado' => $listado, 'estado' => '1'];
+        return $data;
+    }
 }

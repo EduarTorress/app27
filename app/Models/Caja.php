@@ -21,6 +21,7 @@ class Caja extends Modelo
     var $ndolar = "";
     var $nidus = "";
     var $nidt = "";
+    var $cargocajero = 0;
     var $cmbformapago = "";
 
     function buscar($fech, $nidusua, $codt)
@@ -144,6 +145,24 @@ class Caja extends Modelo
                 'ncodt' =>  $_SESSION['idalmacen'],
                 'nturno' => 0
             ]);
+            $idcaja = $pdo->lastInsertId();
+
+            if ($this->cargocajero != 0) {
+                //  FUNCTION `FunIngresaPagosEmpleados`(nimpo DECIMAL(10,2),nacta DECIMAL(10,2),dfech DATE,ct CHAR,nidus INTEGER,
+                // nidcaja INTEGER,nidem INTEGER,cdeta VARCHAR(100))
+                $sqlem = "select FunIngresaPagosEmpleados(:nimpo,:nacta,:dfech,:ct,:nidus,:nidcaja,:nidem,:cdeta)";
+                $exem = $pdo->prepare($sqlem);
+                $exem->execute([
+                    'nimpo' => 0,
+                    'nacta' => (floatval($this->sdeudor) > 0 ? $this->sdeudor : $this->sacreedor),
+                    'dfech' =>  $this->dfecha,
+                    'ct' => 'P',
+                    'nidus' =>  session()->get("usuario_id"),
+                    'nidcaja' =>  $idcaja,
+                    'nidem' =>  $this->cargocajero,
+                    'cdeta' => $this->cdeta,
+                ]);
+            }
             if ($idserie != 0) {
                 if (!Serie::aumentarcorrelativo($idserie, $pdo)) {
                     $pdo->rollBack();

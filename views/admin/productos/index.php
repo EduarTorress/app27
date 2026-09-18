@@ -56,6 +56,11 @@ echo $mdGs->render();
                                                         Ver Gestión Stock
                                                     </button>
                                                 <?php endif; ?>
+                                                <?php if ($opt == '6') : ?>
+                                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mdStockProducto">
+                                                        Ingresar Diferencia
+                                                    </button>
+                                                <?php endif; ?>
                                             </div>
                                         </div>
                                     </div>
@@ -227,7 +232,7 @@ $this->startSection('javascript');
     }
 
     function obtener() {
-         let vdvto = 0;
+        let vdvto = 0;
         if (document.getElementsByName('optradios')[0].checked) {
             vdvto = 'C';
         }
@@ -271,21 +276,20 @@ $this->startSection('javascript');
     function obteneridart(idart) {}
 
     //ARMAR COMBOS
-    function armarcombo(datos) {
-
-        axios.get('/combos/modalcreatedetalle', {
-            "params": {
-                "txtidproducto": datos.parametro2
-            }
-        }).then(function(respuesta) {
-            $('#modal-contenidod').html(respuesta.data)
-            $("#lbltitulodetalle").text("Armar combo: " + datos.parametro1);
-            $("#txtidproducto").val(datos.parametro2);
-            $("#modal-detalle").modal('show');
-        }).catch(function() {
-            toastr.error('Error al cargar el modal de crear', 'Mensaje del Sistema')
-        });
-    }
+    // function armarcombo(datos) {
+    //     axios.get('/combos/modalcreatedetalle', {
+    //         "params": {
+    //             "txtidproducto": datos.parametro2
+    //         }
+    //     }).then(function(respuesta) {
+    //         $('#modal-contenidod').html(respuesta.data)
+    //         $("#lbltitulodetalle").text("Armar combo: " + datos.parametro1);
+    //         $("#txtidproducto").val(datos.parametro2);
+    //         $("#modal-detalle").modal('show');
+    //     }).catch(function() {
+    //         toastr.error('Error al cargar el modal de crear', 'Mensaje del Sistema')
+    //     });
+    // }
 
     function closemodaldetalle() {
         $("#modal-detalle").modal('hide');
@@ -311,17 +315,17 @@ $this->startSection('javascript');
     //     });
     // }
 
-    //PARA COMBOS DE PRODUCTOS
-    function agregarunitemVenta(datos) {
-        var tr = `<tr class="fila"> 
-                    <td><input type="text" name="idart1" style="width: 100%;" class="idart" id="idart1"  value='` + datos.parametro2 + `' readonly></td>
-                    <td><input type="text" name="nombre1" style="width: 100%;" class="nombre" id="nombre1"  value='` + datos.parametro1 + `' readonly></td>
-                    <td><input type="text" name="costo1" style="width: 100%;" class="costo" id="costo1"  value='` + datos.parametro8 + `' readonly></td>
-                    <td> <button class="borrar" style="height:25px; background-color:#FF3838; border-color: #FF3838;">Eliminar</button></td>
-                    </tr>`;
-        $('#detallecombo tbody').append(tr);
-        calcularcostototal();
-    }
+    // //PARA COMBOS DE PRODUCTOS
+    // function agregarunitemVenta(datos) {
+    //     var tr = `<tr class="fila"> 
+    //                 <td><input type="text" name="idart1" style="width: 100%;" class="idart" id="idart1"  value='` + datos.parametro2 + `' readonly></td>
+    //                 <td><input type="text" name="nombre1" style="width: 100%;" class="nombre" id="nombre1"  value='` + datos.parametro1 + `' readonly></td>
+    //                 <td><input type="text" name="costo1" style="width: 100%;" class="costo" id="costo1"  value='` + datos.parametro8 + `' readonly></td>
+    //                 <td> <button class="borrar" style="height:25px; background-color:#FF3838; border-color: #FF3838;">Eliminar</button></td>
+    //                 </tr>`;
+    //     $('#detallecombo tbody').append(tr);
+    //     calcularcostototal();
+    // }
 
     function calcularcostototal() {
         var costos = [];
@@ -333,66 +337,66 @@ $this->startSection('javascript');
         $("#txtcostototal").val(Number(total).toFixed(2))
     }
 
-    $(document).on('click', '.borrar', function(event) {
-        event.preventDefault();
-        $(this).closest('tr').remove();
-        calcularcostototal();
-    });
+    // $(document).on('click', '.borrar', function(event) {
+    //     event.preventDefault();
+    //     $(this).closest('tr').remove();
+    //     calcularcostototal();
+    // });
 
-    function registrarcombo() {
-        if ($('#detallecombo tbody tr').length != 0) {
-            Swal.fire({
-                title: "¿Desea registrar el combo?",
-                text: "Los productos se uniran al combo",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Si, armar combo",
-                cancelButtonText: "No, cancelar"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const detalle = []
-                    $("#detallecombo tbody tr").each(function() {
-                        json = "";
-                        $(this).find("td input").each(function() {
-                            $this = $(this);
-                            json += ',"' + $this.attr("class") + '":"' + $this.val() + '"'
-                        })
-                        obj = JSON.parse('{' + json.substr(1) + '}');
-                        detalle.push(obj)
-                    });
-                    data = new FormData();
-                    data.append("txtidproducto", $("#txtidproducto").val());
-                    data.append("detalle", JSON.stringify(detalle));
-                    axios.post("/combos/registrarcombo", data)
-                        .then(function(respuesta) {
-                            Swal.fire({
-                                title: "Se ejecuto satisfactoriamente",
-                                text: respuesta.data.mensaje.trimEnd(),
-                                icon: "success"
-                            });
-                            $("#modal-detalle").modal('hide');
-                        }).catch(function(error) {
-                            e = error['response']['data']['errors']
-                            result = []
-                            for (var i in e) {
-                                result.push([i, e[i]]);
-                            }
-                            result.forEach(function(numero) {
-                                toastr.error(numero[1], 'Mensaje del Sistema')
-                            });
-                        });
-                }
-            });
-        } else {
-            toastr.info("Agregue productos al combo", 'Mensaje del Sistema');
-        }
-    }
+    // function registrarcombo() {
+    //     if ($('#detallecombo tbody tr').length != 0) {
+    //         Swal.fire({
+    //             title: "¿Desea registrar el combo?",
+    //             text: "Los productos se uniran al combo",
+    //             icon: "warning",
+    //             showCancelButton: true,
+    //             confirmButtonColor: "#3085d6",
+    //             cancelButtonColor: "#d33",
+    //             confirmButtonText: "Si, armar combo",
+    //             cancelButtonText: "No, cancelar"
+    //         }).then((result) => {
+    //             if (result.isConfirmed) {
+    //                 const detalle = []
+    //                 $("#detallecombo tbody tr").each(function() {
+    //                     json = "";
+    //                     $(this).find("td input").each(function() {
+    //                         $this = $(this);
+    //                         json += ',"' + $this.attr("class") + '":"' + $this.val() + '"'
+    //                     })
+    //                     obj = JSON.parse('{' + json.substr(1) + '}');
+    //                     detalle.push(obj)
+    //                 });
+    //                 data = new FormData();
+    //                 data.append("txtidproducto", $("#txtidproducto").val());
+    //                 data.append("detalle", JSON.stringify(detalle));
+    //                 axios.post("/combos/registrarcombo", data)
+    //                     .then(function(respuesta) {
+    //                         Swal.fire({
+    //                             title: "Se ejecuto satisfactoriamente",
+    //                             text: respuesta.data.mensaje.trimEnd(),
+    //                             icon: "success"
+    //                         });
+    //                         $("#modal-detalle").modal('hide');
+    //                     }).catch(function(error) {
+    //                         e = error['response']['data']['errors']
+    //                         result = []
+    //                         for (var i in e) {
+    //                             result.push([i, e[i]]);
+    //                         }
+    //                         result.forEach(function(numero) {
+    //                             toastr.error(numero[1], 'Mensaje del Sistema')
+    //                         });
+    //                     });
+    //             }
+    //         });
+    //     } else {
+    //         toastr.info("Agregue productos al combo", 'Mensaje del Sistema');
+    //     }
+    // }
 
-    $('#modal-detalle').on('hidden.bs.modal', function() {
-        $('#detallecombo tbody tr').remove();
-    });
+    // $('#modal-detalle').on('hidden.bs.modal', function() {
+    //     $('#detallecombo tbody tr').remove();
+    // });
 </script>
 <?php
 $this->endSection('javascript');

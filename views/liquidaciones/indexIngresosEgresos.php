@@ -130,7 +130,8 @@ $this->startSection('javascript');
                     data.append("cdeta", $("#txtdetallei").val());
                     data.append("sdeudor", $("#txtimportei").val());
                     data.append("sacreedor", 0);
-                    data.append("cmbformapago", $("#cmbformapago").val());
+                    data.append("cmbformapago", $("#cmbformapagoi").val());
+                    data.append("cargocajero", $("cmbcajeroi").val());
                     data.append("tipo", 'I');
                     data.append("idserie", idserie);
                     axios.post("/cajas/registrarIngresoEgreso", data)
@@ -174,8 +175,9 @@ $this->startSection('javascript');
                     data.append("cdeta", $("#txtdetallee").val());
                     data.append("sdeudor", 0);
                     data.append("sacreedor", $("#txtimportee").val());
-                    data.append("cmbformapago", $("#cmbformapago").val());
+                    data.append("cmbformapago", $("#cmbformapagoe").val());
                     data.append("tipo", 'E');
+                    data.append("cargocajero", $("cmbcajeroe").val());
                     data.append("idserie", idserie);
                     axios.post("/cajas/registrarIngresoEgreso", data)
                         .then(function(respuesta) {
@@ -242,6 +244,11 @@ $this->startSection('javascript');
         $("#txtmontoatransferir").val('');
         obtenernumeracion();
         $('#btngrabar').removeAttr('disabled')
+        $("#cmbcajeroi").val('0');
+        $("#cmbcajeroe").val('0');
+        $("#contenedorCajero").find('select')
+            .addClass('cajero-bloqueado')
+            .prop('disabled', true);
     }
 
     function registrarretiroparabancos() {

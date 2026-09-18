@@ -136,6 +136,9 @@
                                 <?php break;
                                 case 5: ?>
                                     <button class="btn btn-info" id="<?php echo "agregar" . $parametro2 ?>" onclick='getDataArtStock(<?php echo $cadena_json ?>)'><a class="a fas fa-plus-circle" style="color:white;"></a></button>
+                                <?php break;
+                                case 6: ?>
+                                    <button class="btn btn-secondary" id="<?php echo "agregar" . $parametro2 ?>" onclick='getDataArtStock(<?php echo $cadena_json ?>)'><a class="a fas fa-plus-circle" style="color:white;"></a></button>
                             <?php break;
                             }
                             ?>

@@ -287,6 +287,7 @@ $app->router->get('/traspasos/aceptartraspaso', [\App\Controllers\TraspasoContro
 
 #rutas de inventario
 $app->router->post('/producto/updateStock', [\App\Controllers\ProductoController::class, 'updateStock']);
+$app->router->post('/producto/registrarvarillajemedicion', [\App\Controllers\ProductoController::class, 'registrarvarillajeymedicion']);
 $app->router->get('/inventarios/kardex', [\App\Controllers\InventarioController::class, 'indexkardex']);
 $app->router->get('/inventarios/listarkardex', [\App\Controllers\InventarioController::class, 'listarkardex']);
 
@@ -302,6 +303,10 @@ $app->router->get('/inventarios/listarstockvalorizado', [\App\Controllers\Invent
 $app->router->get('/inventarios/indexlistaajustes', [\App\Controllers\InventarioController::class, 'indexlistaajustes']);
 $app->router->get('/inventarios/listaajustes', [\App\Controllers\InventarioController::class, 'listaajustes']);
 $app->router->get('/inventarios/verdetalleajuste', [\App\Controllers\InventarioController::class, 'verdetalleajuste']);
+
+
+$app->router->get('/inventarios/indexlistavarillajeymedicion', [\App\Controllers\InventarioController::class, 'indexlistavarillajeymedicion']);
+$app->router->get('/inventarios/listavarillajeymedicion', [\App\Controllers\InventarioController::class, 'listavarillajeymedicion']);
 
 $app->router->get('/inventarios/calcularstock', [\App\Controllers\InventarioController::class, 'calcularstock']);
 

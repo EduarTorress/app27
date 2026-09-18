@@ -100,7 +100,7 @@ $this->startSection("javascript")
             $("#search").html(respuesta.data);
         }).catch(function(error) {
             $("#btnconsultar").attr('disabled', false);
-            toastr.error("Error al cargar el listado")
+            toastr.error("Error al cargar el listado", 'Mensaje del Sistema')
         });
     }
 

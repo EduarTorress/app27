@@ -1,0 +1,17 @@
+DELIMITER $$
+
+CREATE FUNCTION `FunIngresaVarillajeyMedicion`(nid INTEGER,cc INTEGER,ct CHAR,npr DECIMAL(12,5),
+nct DECIMAL(12,4),cincl CHAR,tmvto CHAR,ccodv INTEGER,calma INTEGER,stockactual DECIMAL(12,4)) RETURNS INT(11)
+BEGIN
+DECLARE nidk INTEGER DEFAULT 0;
+DECLARE nidequi DECIMAL(8,4) DEFAULT 0;
+DECLARE ncant DECIMAL(12,6) DEFAULT 0;
+INSERT INTO fe_kar(idauto,idart,tipo,prec,cant,ttip,incl,alma,kar_alma)
+VALUES (nid,cc,ct,npr,ncant,tmvto,cincl,calma,stockactual);
+SELECT LAST_INSERT_ID() INTO nidk FROM fe_kar GROUP BY LAST_INSERT_ID();
+RETURN nidk;
+END$$
+
+DELIMITER ;
+
+ALTER TABLE fe_kar ADD COLUMN 'kar_alma' DECIMAL(12,4) DEFAULT 0;

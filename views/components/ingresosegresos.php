@@ -31,7 +31,7 @@
     <label for="" class="col-sm-2 col-form-label">Forma de Pago:</label>
     <div class="col-sm-3">
         <?php if ($tipo == 'I') { ?>
-            <select name="cmbformapago" id="cmbformapago" class="form-control">
+            <select name="cmbformapago" id="cmbformapagoi" class="form-control">
                 <option value="E" selected>EFECTIVO</option>
                 <option value="C">CRÉDITO</option>
                 <option value="D">DEPOSITO</option>
@@ -39,7 +39,7 @@
                 <option value="Y">YAPE / PLIN</option>
             </select>
         <?php } else { ?>
-            <select name="cmbformapago" id="cmbformapago" class="form-control">
+            <select name="cmbformapago" id="cmbformapagoe" class="form-control">
                 <option value="E" selected>EFECTIVO</option>
                 <option value="C">CRÉDITO</option>
                 <option value="D">DEPOSITO</option>
@@ -92,6 +92,21 @@
     </div>
 </div>
 <div class="mb-3 row">
+    <label for="" class="col-sm-2 col-form-label">Con cargo a Cajero:</label>
+    <div class="col-sm-3" id="contenedorCajero">
+        <select
+            name="<?php echo ($tipo == 'I') ? 'cmbcajeroi' : 'cmbcajeroe'; ?>"
+            id="<?php echo ($tipo == 'I') ? 'cmbcajeroi' : 'cmbcajeroe'; ?>"
+            class="form-control cajero-bloqueado"
+            disabled>
+            <option value="0" selected>NO</option>
+            <?php foreach ($usuarios as $u): ?>
+                <option value="<?php echo $u['idusua']; ?>"><?php echo $u['nomb'] ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+</div>
+<div class="mb-3 row">
     <label for="" class="col-sm-2 col-form-label">Detalle:</label>
     <div class="col">
         <?php if ($tipo == 'I') { ?>
@@ -107,3 +122,17 @@
         <button type="button" onclick="registrar('<?php echo $tipo; ?>');" id="btngrabar" class="btn btn-success float-right"><i class="fas fa-plus-circle"></i> Registrar</button>
     </div>
 </div>
+<style>
+    select.cajero-bloqueado {
+        pointer-events: none;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $('#contenedorCajero').on('dblclick', function() {
+            $(this).find('select')
+                .removeClass('cajero-bloqueado')
+                .prop('disabled', false);
+        });
+    });
+</script>

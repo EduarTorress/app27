@@ -43,6 +43,9 @@ class ProductoController extends Controller
             case 5:
                 $ctitulo = 'Ajuste de Inventario';
                 break;
+            case 6:
+                $ctitulo = 'Varillaje y Medición';
+                break;
         }
         return view($vista, ['titulo' => $ctitulo, "totalpedido" => $total]);
     }
@@ -321,6 +324,53 @@ class ProductoController extends Controller
             }
         }
         $rptareg = $this->producto->updateStock($cabecera, $detalle);
+        return $rptareg;
+    }
+    function registrarvarillajeymedicion(Request $request)
+    {
+        $correlativo = SerieController::correlativo('1', 'VM');
+        if ($correlativo[0]['estado'] == 0) {
+            $rpta = array('mensaje' => 'No se pudo obtener el correlativo', "estado" => '0');
+            return $rpta;
+        }
+        $idserie = $correlativo[0]['idserie'];
+        $cndoc = $correlativo[0]['correlativo'];
+        $cabecera = array(
+            'ctdoc' => 'VM',
+            'cform' => 'E',
+            'cndoc' => $cndoc,
+            'dfecha' => date('Y-m-d'),
+            'dfechar' => date('Y-m-d'),
+            'cdetalle' => 'Varillaje y Medición',
+            'nv' => '0',
+            'nigv' => '0',
+            'nt' => '0',
+            'cndo2' => '',
+            'cm' => 'S',
+            'ndolar' => session()->get("gene_dola"),
+            'ni' => session()->get("gene_igv"),
+            'ctg' => 'K',
+            'ccodp' => '2',
+            'cmvto' => 'C',
+            'nus' => session()->get('usuario_id'),
+            'opt' => '0',
+            'nidcodt' =>  $_SESSION['idalmacen'],
+            'n1' => 0,
+            'n2' => 0,
+            'n3' => 0,
+            'nitem' => 0,
+            'npvta' => 0,
+            'idserie' => $idserie
+        );
+        $detalle = json_decode($request->get("detalle"));
+        $detalle = json_decode(json_encode($detalle), true);
+
+        foreach ($detalle as $d) {
+            if ($d['ingreso'] == '') {
+                return response()->json(['message' => 'Error al registrar'], 400);
+            }
+        }
+        $rptareg = $this->producto->registrarvarillajeymedicion($cabecera, $detalle);
         return $rptareg;
     }
     function consultarvtasxprod(Request $request)

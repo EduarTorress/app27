@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use App\Models\Grupo;
+use App\Models\Usuario;
 use Core\View\Component;
 
 class IngresosEgresosComponent extends Component
@@ -14,6 +15,8 @@ class IngresosEgresosComponent extends Component
     }
     function render()
     {
-        return view('components/ingresosegresos', ['tipo' => $this->tipo]);
+        $usuarios = new Usuario();
+        $datausuarios = $usuarios->buscarUsuarios('%%', 0, 0);
+        return view('components/ingresosegresos', ['tipo' => $this->tipo, 'usuarios' => $datausuarios['lista']['items']]);
     }
 }

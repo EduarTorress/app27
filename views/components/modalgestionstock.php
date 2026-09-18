@@ -33,8 +33,13 @@
     </div>
 </div>
 <script>
+    <?php
+    $url = $_SERVER['REQUEST_URI'];
+    $partes = explode('/', trim(parse_url($url, PHP_URL_PATH), '/'));
+    $ultimo = end($partes); ?>
+    parametro = "<?php echo $ultimo; ?>";
+
     function getDataArtStock(datos) {
-        // console.log(datos);
         almacen = "", column = "";
         stock = 0;
         idalmacen = <?php echo (!empty(trim($_SESSION['idalmacen'])) ? trim($_SESSION['idalmacen']) : 0); ?>;
@@ -70,6 +75,17 @@
             'column': column
         }
 
+        if (parametro == '6') {
+            var filas = $('#tblGestionStock tbody tr').length;
+            if (filas >= 1) {
+                toastr.error(
+                    "Para Varillaje y Medición solo se permite registrar un producto.",
+                    "Mensaje del Sistema"
+                );
+                return;
+            }
+        }
+
         valor = 0
         $('#tblGestionStock > tbody  > tr > td > input.idart').each(function() {
             id = $(this).val();
@@ -86,6 +102,9 @@
 
     function showDataArtStock(datos) {
         $("#lblTitle").text("Gestionar stock: " + datos.almacen);
+        if (parametro == '6') {
+            $("#lblTitle").text("Registrar Varillaje y Medición: ");
+        }
         // console.log(datos);
         var tr = `<tr class="fila"> 
                     <td style="display:none"><input type="text" name="idart1" style="width: 100%;" class="idart" id="idart1"  value='` + datos.idart + `' readonly></td>
@@ -107,8 +126,12 @@
         if (filas == 0) {
             toastr.error("No hay productos para guardar", 'Mensaje del Sistema')
         } else {
+            titulo = '¿Desea grabar el AJUSTE de INVENTARIO?';
+            if (parametro == '6') {
+                titulo = '¿Desea registrar Varillaje y Medición?';
+            }
             Swal.fire({
-                title: '¿Desea grabar el AJUSTE de INVENTARIO?',
+                title: titulo,
                 text: "Se registrará el ingreso de los productos seleccionados ",
                 icon: 'question',
                 showCancelButton: true,
@@ -131,8 +154,11 @@
                     });
                     data = new FormData();
                     data.append("detalle", JSON.stringify(detalle));
-                    console.log(JSON.stringify(detalle));
-                    axios.post("/producto/updateStock", data)
+                    ruta = '/producto/updateStock';
+                    if (parametro == '6') {
+                        ruta = '/producto/registrarvarillajemedicion';
+                    }
+                    axios.post(ruta, data)
                         .then(function(respuesta) {
                             // console.log(respuesta);
                             toastr.success(respuesta.data.mensaje.trimEnd(), 'Mensaje del Sistema');

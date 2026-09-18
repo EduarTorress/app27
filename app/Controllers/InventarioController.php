@@ -475,4 +475,17 @@ class InventarioController extends Controller
         $lista = $obj->listarkardexgeneral();
         return view('/inventarios/listakardexgeneral', ['listado' => $lista]);
     }
+    function indexlistavarillajeymedicion()
+    {
+        $titulo = 'Reporte de Varillajes y Medición';
+        return view('inventarios/indexlistavarillajeymedicion', ["titulo" => $titulo]);
+    }
+    function listavarillajeymedicion(Request $request)
+    {
+        $fechi = $request->get('txtfechai');
+        $fechf = $request->get('txtfechaf');
+        $inv = new Inventario();
+        $listado = $inv->listarvarillajeymedicion($fechi, $fechf);
+        return view('inventarios/listavarillajeymedicion', ["listado" => $listado['listado']]);
+    }
 }

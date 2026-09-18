@@ -148,8 +148,32 @@
                 "opt": "A"
             },
             {
+                "item": "Ver Ajustes de Inv.",
+                "ruta": "/inventarios/indexlistaajustes",
+                "class": "far fa-circle nav-icon",
+                "opt": "AS"
+            },
+            {
                 "item": "Kardex x Producto",
                 "ruta": "/inventarios/kardex",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Kardex General",
+                "ruta": "/inventarios/indexkardexgeneral",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
+                "item": "Varillaje y Medición",
+                "ruta": "/productos/index/6",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Listar Varillaje y Medicion",
+                "ruta": "/inventarios/indexlistavarillajeymedicion",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             }

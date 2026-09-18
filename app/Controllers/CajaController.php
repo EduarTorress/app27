@@ -106,6 +106,7 @@ class CajaController extends Controller
         $caja->ndolar = session()->get("gene_dola");
         $caja->nidus = session()->get("usuario_id");
         $caja->cmbformapago = $request->get('cmbformapago');
+        $caja->cargocajero=$request->get('cargocajero');
         $caja->nidt = $_SESSION['almacen'];
         $rpta = $caja->registramovimientoscaja($request->get('idserie'));
         if ($rpta['estado'] == '1') {
