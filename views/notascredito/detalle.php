@@ -81,34 +81,33 @@
     </div>
 </div>
 <script>
-    $('#griddetalle').DataTable({
-        "paging": false,
-        "keys": false,
-        "lengthChange": false,
-        "searching": true,
-        "ordering": false,
-        "info": false,
-        "autoWidth": false,
-        "responsive": true,
-        "columnDefs": [{
-                "responsivePriority": 1,
-                "target": 0
-            },
-            {
-                "responsivePriority": 2,
-                "target": 2
-            },
-            {
-                "responsivePriority": 3,
-                "target": -3
-            },
-            {
-                "responsivePriority": 4,
-                "target": -2
-            }
-
-        ]
-    });
+    // $('#griddetalle').DataTable({
+    //     "paging": false,
+    //     "keys": false,
+    //     "lengthChange": false,
+    //     "searching": true,
+    //     "ordering": false,
+    //     "info": false,
+    //     "autoWidth": false,
+    //     "responsive": true,
+    //     "columnDefs": [{
+    //             "responsivePriority": 1,
+    //             "target": 0
+    //         },
+    //         {
+    //             "responsivePriority": 2,
+    //             "target": 2
+    //         },
+    //         {
+    //             "responsivePriority": 3,
+    //             "target": -3
+    //         },
+    //         {
+    //             "responsivePriority": 4,
+    //             "target": -2
+    //         }
+    //     ]
+    // });
 
     //No admitir letras, solo numeros con punto y coma.
     function isNumber(evt) {

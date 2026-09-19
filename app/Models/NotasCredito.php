@@ -74,10 +74,10 @@ class NotasCredito extends Modelo
             $tipocompraexon = (empty($_SESSION['config']['tipocompraexon']) ? 'N' : $_SESSION['config']['tipocompraexon']);
             if ($tipocompraexon  == 'N') {
                 $sqlIDE = "select FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfecha,:cdetalle,:nv,:nigv,:nt,:cndo2,:cmon,:ndolar,:ni,
-                :ctg,:ccodp,:cmvto,:nidusua,1,:nidcodt,:n1,:n2,:n3,'','1') AS ID";
+                :ctg,:ccodp,:cmvto,:nidusua,1,:nidcodt,:n1,:n2,:n3,:nidcodt,'1') AS ID";
             } else {
                 $sqlIDE = "select FunIngresaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfecha,:cdetalle,:nv,:nigv,:nt,:cndo2,:cmon,:ndolar,:ni,
-                :ctg,:ccodp,:cmvto,:nidusua,1,:nidcodt,:n1,:n2,:n3,'','1','0') AS ID";
+                :ctg,:ccodp,:cmvto,:nidusua,1,:nidcodt,:n1,:n2,:n3,:nidcodt,'1','0') AS ID";
             }
 
             $exIDE = $pdo->prepare($sqlIDE);
@@ -204,9 +204,9 @@ class NotasCredito extends Modelo
             //     }
             // }
             if ($tipocompraexon == 'N') {
-                $sqlIK = "SELECT FunIngresaKardex1(:nid,:cc,'V',:npr,:nct,'I','V',:ccod,:calma,:nidcosto1,'0') AS NID";
+                $sqlIK = "SELECT FunIngresaKardex1(:nid,:cc,'V',:npr,:nct,'I','V',:ccod,:calma,:nidcosto1,0,0) AS NID";
             } else {
-                $sqlIK = "SELECT FunIngresaKardex1(:nid,:cc,'V',:npr,:nct,'I','V',:ccod,:calma,:nidcosto1,'0','0') AS NID";
+                $sqlIK = "SELECT FunIngresaKardex1(:nid,:cc,'V',:npr,:nct,'I','V',:ccod,:calma,:nidcosto1,0,0,0) AS NID";
             }
             $sqlAS = "CALL astock(:coda,:nalma,:ccant,'V')";
             $ik = 1;
@@ -275,12 +275,11 @@ class NotasCredito extends Modelo
                 $rpta = array('mensaje' => $exAS->errorInfo() . 'exAS', "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
-            $sqlINC = "select FUNINGRESANOTASCREDITOventas1(:niautoc,:nidautov,:monto,:nimpo) as id";
+            $sqlINC = "select FUNINGRESANOTASCREDITOventas1(:niautoc,:nidautov,:nimpo) as id";
             $exINC = $pdo->prepare($sqlINC);
             $exINC->execute([
                 "nidautov" => $this->nidauto,
                 "niautoc" => $id,
-                "monto" => '0',
                 "nimpo" => $this->nt
             ]);
             if ($exINC->errorCode() != '00000') {
