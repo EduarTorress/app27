@@ -62,7 +62,7 @@ class GuiasRemiController extends Controller
         $abuscar = trim($request->get('cbuscar'));
         $opt = intval($request->get("option"));
         $nid = $opt <> 2 ? 0 : intval($request->get('cbuscar'));
-        $lista = $proveedor->muestraProveedoresModal($abuscar, $opt, $nid);
+        $lista = $proveedor->buscarProveedor($abuscar, $opt, $nid);
         $cmodo = $request->get("modo");
         return view('admin/proveedor/re_proveedores', ['lista' => $lista, 'modo' => $cmodo]);
     }

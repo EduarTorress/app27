@@ -106,7 +106,7 @@ class CajaController extends Controller
         $caja->ndolar = session()->get("gene_dola");
         $caja->nidus = session()->get("usuario_id");
         $caja->cmbformapago = $request->get('cmbformapago');
-        $caja->cargocajero=$request->get('cargocajero');
+        $caja->cargocajero = $request->get('cargocajero');
         $caja->nidt = $_SESSION['almacen'];
         $rpta = $caja->registramovimientoscaja($request->get('idserie'));
         if ($rpta['estado'] == '1') {
@@ -157,9 +157,7 @@ class CajaController extends Controller
         $caja->nidus = session()->get("usuario_id");
         $caja->cmbformapago = $request->get('cmbformapagot');
         $caja->nidt = $_SESSION['almacen'];
-
         $rpta = $caja->registramovimientoscaja($request->get('idserie'));
-
         if ($rpta['estado'] == '1') {
             return response()->json([
                 'message' => $rpta['mensaje'],
@@ -175,22 +173,17 @@ class CajaController extends Controller
     public function registrarretiroparabancos(Request $request)
     {
         $caja = new Caja();
-
         $caja->dfecha = $request->get('txtfecharb');
         $caja->cndoc = $request->get('txtnumerodocumentorb');
         $caja->cdeta = $request->get('txtdetallede');
         $caja->sdeudor = $request->get('txtimporterb');
         $caja->sacreedor = $request->get('txtimportede');
-
         $caja->cmone = 'S';
         $caja->ndolar = session()->get("gene_dola");
         $caja->nidus = session()->get("usuario_id");
-
         $caja->cmbformapago = $request->get('cmbformapagode');
         $caja->nidt = $_SESSION['almacen'];
-
         $rpta = $caja->registramovimientoscaja($request->get('idserie'));
-
         if ($rpta['estado'] == '1') {
             return response()->json([
                 'message' => $rpta['mensaje'],
@@ -213,12 +206,11 @@ class CajaController extends Controller
         $nidusua = $request->get('cmbusuarios');
         $codt = $request->get('cmbAlmacen');
         $caja = new Caja();
-        $data = $caja->listarcomparabancos($fech, $nidusua,$codt);
+        $data = $caja->listarcomparabancos($fech, $nidusua, $codt);
         return \view('liquidaciones/listarcomparabancos', [
             'lista' => $data['lista']
         ]);
     }
-
     // function registrarTransferencia(Request $request) {}
     // function indexregistrocajaybancos()
     // {

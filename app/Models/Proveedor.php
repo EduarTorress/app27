@@ -92,54 +92,54 @@ class Proveedor extends Modelo
         }
         return $data;
     }
-    function muestraProveedoresModal($buscar, $opt, $nid)
-    {
-        $lista = array();
-        $data = ['resultado' => false];
-        $lista['items'] = array();
-        $csql = "call promuestraproveedor(:abuscar,:opt,:nid)";
-        $query = $this->prepare($csql);
-        try {
-            $query->execute([
-                'abuscar' => $buscar,
-                'opt' => $opt,
-                "nid" => $nid
-            ]);
-            if ($query->rowcount()) {
-                while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-                    $item = array(
-                        "idprov" => $row['idprov'],
-                        "nruc" => $row['nruc'],
-                        "razo" => $row['razo'],
-                        "fono" => $row['fono'],
-                        "dire" => $row['dire'],
-                        "ciud" => $row['ciud'],
-                        "fax" => $row['fax'],
-                        "email" => $row['email'],
-                        "celu" => $row['celu'],
-                        "refe" => $row['refe'],
-                        "prov_rpm" => $row['prov_rpm'],
-                        "prov_idus" => $row['prov_idus'],
-                        "prov_actu" => $row['prov_actu'],
-                        "fechprov" => $row['fechprov'],
-                        "prov_feac" => $row['prov_feac'],
-                        "ubig" => ''
-                    );
-                    array_push($lista["items"], $item);
-                }
-                $data = array();
-                $data = ["estado" => true, 'lista' => $lista, 'mensaje' => 'Ok'];
-            } else {
-                $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "No hay resultados para mostrar"];
-                // echo json_encode($data);
-            }
-        } catch (PDO $e) {
-            $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar " . $e];
-            //echo json_encode($data);
-            //   return false;
-        }
-        return $data;
-    }
+    // function muestraProveedoresModal($buscar, $opt, $nid)
+    // {
+    //     $lista = array();
+    //     $data = ['resultado' => false];
+    //     $lista['items'] = array();
+    //     $csql = "call promuestraproveedor(:abuscar,:opt,:nid)";
+    //     $query = $this->prepare($csql);
+    //     try {
+    //         $query->execute([
+    //             'abuscar' => $buscar,
+    //             'opt' => $opt,
+    //             "nid" => $nid
+    //         ]);
+    //         if ($query->rowcount()) {
+    //             while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+    //                 $item = array(
+    //                     "idprov" => $row['idprov'],
+    //                     "nruc" => $row['nruc'],
+    //                     "razo" => $row['razo'],
+    //                     "fono" => $row['fono'],
+    //                     "dire" => $row['dire'],
+    //                     "ciud" => $row['ciud'],
+    //                     "fax" => $row['fax'],
+    //                     "email" => $row['email'],
+    //                     "celu" => $row['celu'],
+    //                     "refe" => $row['refe'],
+    //                     "prov_rpm" => $row['prov_rpm'],
+    //                     "prov_idus" => $row['prov_idus'],
+    //                     "prov_actu" => $row['prov_actu'],
+    //                     "fechprov" => $row['fechprov'],
+    //                     "prov_feac" => $row['prov_feac'],
+    //                     "ubig" => ''
+    //                 );
+    //                 array_push($lista["items"], $item);
+    //             }
+    //             $data = array();
+    //             $data = ["estado" => true, 'lista' => $lista, 'mensaje' => 'Ok'];
+    //         } else {
+    //             $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "No hay resultados para mostrar"];
+    //             // echo json_encode($data);
+    //         }
+    //     } catch (PDO $e) {
+    //         $data = ["estado" => false, 'lista' => $lista, 'mensaje' => "Error al conectar " . $e];
+    //         //echo json_encode($data);
+    //         //   return false;
+    //     }
+    //     return $data;
+    // }
     function consultarprovxruc($nruc)
     {
         $existe = "F";
