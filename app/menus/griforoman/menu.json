@@ -22,6 +22,12 @@
                 "opt": "AV"
             },
             {
+                "item": "Facturar Ventas",
+                "ruta": "/vtas/indexcanjearnotas",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
+            },
+            {
                 "item": "Informe de Ventas",
                 "ruta": "/vtas/vtasresumidas",
                 "class": "far fa-circle nav-icon",

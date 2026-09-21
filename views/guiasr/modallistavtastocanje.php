@@ -39,7 +39,8 @@
                                                 $parametro6 = $item['ubig'];
                                                 $parametro7 = $item['razo'];
                                                 $parametro8 = $item['dcto'];
-                                                $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8');
+                                                $parametro9 = $item['form'];
+                                                $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8', 'parametro9');
                                                 $cadena_json = json_encode($parametros);
                                                 ?>
                                                 <a class="btn btn-success" role="button" onclick='seleccionarventa(<?php echo $cadena_json ?>)'>

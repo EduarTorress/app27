@@ -1820,8 +1820,10 @@ class VentasController extends Controller
         $cmbdcto = $request->get('cmbdcto');
         $clienteretencion = $request->get('clienteretencion');
         $total = $request->get('total');
+        $documentoantiguo = $request->get('documentoantiguo');
+        $txtformapago = $request->get('txtformapago');
         $ventas = new Ventas();
-        $registro = $ventas->facturarnotasdeventa($idauto, $cmbdcto, $clienteretencion, $total);
+        $registro = $ventas->facturarnotasdeventa($idauto, $cmbdcto, $clienteretencion, $total, $documentoantiguo, $txtformapago);
         if ($registro['estado'] == 1) {
             $rpta = array('mensaje' => "Se Genero la venta satisfactoriamente ", "ndoc" => $registro['ndoc'], "estado" => '1');
             return json_encode($rpta, 200);

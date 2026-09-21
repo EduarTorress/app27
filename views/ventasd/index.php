@@ -119,6 +119,11 @@ echo $login->render();
                         <input type="text" id="txtidautovtaanticipo" value="<?php echo empty($idautoanticipado) ? '0' : $idautoanticipado ?>" style="display:none;" readonly class="form-control form-control-sm">
                     </div>
                 </div>
+                <div class="col-sm-3">
+                </div>
+                <div class="col-sm-2" <?php echo ($idventa <> 0 ? ' ' : 'style="display:none;"') ?>>
+                    <button class="btn btn-outline-primary btn-sm" id="btnconvertirafactura" role="button" onclick="convertirafactura(<?php echo $idventa ?>);">Convertir Boleta a Factura</button>
+                </div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
@@ -1008,7 +1013,43 @@ $this->startSection('javascript');
         $("#grabar").prop("disabled", false).removeClass("bloqueado-edicion");
         $("#cancelar").prop("disabled", false).removeClass("bloqueado-edicion");
         $("#txtreferencia").prop("readonly", false).removeClass("bloqueado-edicion");
+        $("#txtdias").prop("readonly", false).removeClass("bloqueado-edicion");
+        $("#btnconvertirafactura").prop("disabled", false).removeClass("bloqueado-edicion");
     }
+
+    // function convertirafactura(idventa) {
+    //     cmbdcto = $("#cmbdcto").val();
+    //     if (cmbdcto != '03') {
+    //         toastr.error("El documento no es una boleta", 'Mensaje del Sistema');
+    //         return;
+    //     }
+    //     Swal.fire({
+    //         title: "¿Desea convertir esta boleta a factura?",
+    //         text: "El numero actual la boleta pasará como anulado y se reemplazará por el correlativo de factura junto con la fecha",
+    //         icon: 'question',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Si'
+    //     }).then(function(respuesta) {
+    //         if (respuesta.isConfirmed) {
+    //             data = new FormData();
+    //             data.append("idventa", idventa);
+    //             data.append("cmbforma", $("#cmbforma").val());
+    //             axios.post("/vtas/convertirafactura", data)
+    //                 .then(function(respuesta) {
+    //                     console.log(respuesta);
+    //                     // toastr.success(' Se actualizo la venta satisfactoriamente ', 'Mensaje del Sistema');
+    //                     // const tabla = respuesta.data;
+    //                     // $('#detalle').html(tabla);
+    //                     // window.location.href = '/vtas/vtasresumidas';
+    //                     // limpiardatos();
+    //                 }).catch(function(error) {
+    //                     mostrarerroresvalidacion(error);
+    //                 });
+    //         }
+    //     });
+    // }
 </script>
 <?php
 $this->endSection("javascript");

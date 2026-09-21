@@ -5,7 +5,7 @@
                 <th scope="col" style="width:3%" class="codigo">Código</th>
                 <th scope="col" style="width:28%">Producto</th>
                 <th scope="col" style="width:5%">Cantidad</th>
-                <th scope="col" style="width:5%" class="codigo">Devolución</th>
+                <th scope="col" style="width:5%" class="devolucion">Devolución</th>
                 <th scope="col" style="width:5%">Precio</th>
                 <th scope="col" style="width:5%">Importe</th>
             </tr>
@@ -18,7 +18,7 @@
                         <td class="codigo"><?php echo $item['idart'] ?></td>
                         <td class="descripcion"><?php echo $item['descri'] ?></td>
                         <td class="cantidad" contenteditable="false" name="cantidad"><?php echo $item['cant'] ?></td>
-                        <td class="devolucion codigo" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="true" name="devolucion"><?php echo "0.00" ?></td>
+                        <td class="devolucion" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="true" name="devolucion"><?php echo "0.00" ?></td>
                         <td class="precio" contenteditable="false" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><?php echo round($item['prec'], 2) ?></td>
                         <td class="importe" contenteditable="false" class="total"><?php echo round(floatval($item['cant']) * floatval($item['prec']), 2) ?></td>
                         <?php $i++; ?>
@@ -123,6 +123,7 @@
 
     $(document).ready(function() {
         $(".codigo").css("display", "none");
+        $(".devolucion").css("display", "none");
         $("td").removeClass("dtr-control")
     });
 

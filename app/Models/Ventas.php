@@ -1971,7 +1971,7 @@ class Ventas extends Modelo
         CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml,tcom
         FROM fe_rcom AS a 
         INNER JOIN fe_clie AS b ON (a.idcliente=b.idclie),fe_gene AS v
-        WHERE a.acti='A' AND impo<>0 AND a.`idcliente`=:idCliente and tdoc='20' ORDER BY fech,ndoc";
+        WHERE a.acti='A' AND impo<>0 AND a.`idcliente`=:idCliente and tdoc in('20','03') ORDER BY fech,ndoc";
         $query = $this->prepare($sql);
         $query->setFetchMode(PDO::FETCH_ASSOC);
         $query->execute([
@@ -1979,7 +1979,7 @@ class Ventas extends Modelo
         ]);
         return $query;
     }
-    function facturarnotasdeventa($idauto, $cmbtdoc, $clienteretencion, $total)
+    function facturarnotasdeventa($idauto, $cmbtdoc, $clienteretencion, $total, $documentoantiguo, $txtformapago)
     {
         try {
             $correlativo = SerieController::correlativo('1', $cmbtdoc);
@@ -1992,42 +1992,63 @@ class Ventas extends Modelo
             $ncon = new conexion();
             $pdo = $ncon->conectar();
             $pdo->beginTransaction();
-            $sql = "update fe_rcom set ndoc=:ndoc,tdoc=:tdoc,fech=:fech,fecr=:fech,idusua1=:idusua,rcom_mret=:retencion where idauto=:idauto";
+
+
+            // $sql = "update fe_rcom set ndoc=:ndoc,tdoc=:tdoc,fech=:fech,fecr=:fech,idusua1=:idusua,rcom_mret=:retencion where idauto=:idauto";
+            // $exec = $pdo->prepare($sql);
+            // $exec->execute([
+            //     'tdoc' => $cmbtdoc,
+            //     'ndoc' => $this->cndoc,
+            //     'fech' => date('Y-m-d'),
+            //     'idusua' => $_SESSION['usuario_id'],
+            //     'idauto' => $idauto,
+            //     'retencion' => (floatval($_SESSION['gene_montoretencion']) <= floatval($total) ? ($clienteretencion == 'S' ? round($total * $_SESSION['gene_retencion'], 2) : 0) : 0)
+            // ]);
+
+            // Ejecutar procedimiento almacenado
+            $sql = "CALL ProConvierteDocumentoaFactura(:id,:documento,:documentoantiguo,:formapago,:usuario)";
+
             $exec = $pdo->prepare($sql);
+
             $exec->execute([
-                'tdoc' => $cmbtdoc,
-                'ndoc' => $this->cndoc,
-                'fech' => date('Y-m-d'),
-                'idusua' => $_SESSION['usuario_id'],
-                'idauto' => $idauto,
-                'retencion' => (floatval($_SESSION['gene_montoretencion']) <= floatval($total) ? ($clienteretencion == 'S' ? round($total * $_SESSION['gene_retencion'], 2) : 0) : 0)
+                'id' => $idauto,
+                'documento' => $this->cndoc,
+                'documentoantiguo' => $documentoantiguo,
+                'formapago' => $txtformapago,
+                'usuario' => $_SESSION['usuario_id']
             ]);
+
             if ($exec->errorCode() != '00000') {
                 $pdo->rollBack();
                 enviarmensajerror($sql, $exec->errorInfo());
                 $rpta = array('mensaje' => $exec->errorInfo(), "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
-            $igv = $_SESSION['gene_igv'];
-            $subtotal = $total / $igv;
-            $vigv = $total - $subtotal;
-            $sqlctas = 'CALL IngresaCuentasV(:nv,:nigv,:nt,:n1,:n2,:n3,"H","H","D",:idauto,0,0)';
-            $execctas = $pdo->prepare($sqlctas);
-            $execctas->execute([
-                'nv' => $subtotal,
-                'nigv' => $vigv,
-                'nt' => $total,
-                'n1' => session()->get("gene_idctav"),
-                'n2' => session()->get("gene_idctai"),
-                'n3' => session()->get("gene_idctat"),
-                'idauto' => $idauto
-            ]);
-            if ($execctas->errorCode() != '00000') {
-                $pdo->rollBack();
-                enviarmensajerror($sqlctas, $execctas->errorInfo());
-                $rpta = array('mensaje' => 'ivc' . $execctas->errorInfo(), "ndoc" => "", "estado" => '0');
-                return $rpta;
+
+            $primerValor = substr($documentoantiguo, 0, 1);
+            if ($primerValor === 'P') {
+                $igv = $_SESSION['gene_igv'];
+                $subtotal = $total / $igv;
+                $vigv = $total - $subtotal;
+                $sqlctas = 'CALL IngresaCuentasV(:nv,:nigv,:nt,:n1,:n2,:n3,"H","H","D",:idauto,0,0)';
+                $execctas = $pdo->prepare($sqlctas);
+                $execctas->execute([
+                    'nv' => $subtotal,
+                    'nigv' => $vigv,
+                    'nt' => $total,
+                    'n1' => session()->get("gene_idctav"),
+                    'n2' => session()->get("gene_idctai"),
+                    'n3' => session()->get("gene_idctat"),
+                    'idauto' => $idauto
+                ]);
+                if ($execctas->errorCode() != '00000') {
+                    $pdo->rollBack();
+                    enviarmensajerror($sqlctas, $execctas->errorInfo());
+                    $rpta = array('mensaje' => 'ivc' . $execctas->errorInfo(), "ndoc" => "", "estado" => '0');
+                    return $rpta;
+                }
             }
+
             if (!Serie::aumentarcorrelativo($idserie, $pdo)) {
                 $pdo->rollBack();
                 $rpta = array('mensaje' => 'Error al aumentar el correlativo', "ndoc" => "", "estado" => '0');

@@ -33,6 +33,8 @@ $app->router->get("/vtas/listarvtasnota", [\App\Controllers\VentasController::cl
 $app->router->get("/vtas/listarvtasxserviciostoanticipo", [\App\Controllers\VentasController::class, 'listarvtasxserviciostoanticipo']);
 $app->router->post('/vtas/verificarvalorescarrito', [\App\Controllers\VentasController::class, 'verificarvalorescarrito']);
 
+// $app->router->post('/vtas/convertirafactura', [\App\Controllers\VentasController::class, 'convertirafactura']);
+
 $app->router->get("/vtas/listardetallenota", [\App\Controllers\VentasController::class, 'listardetallenota']);
 $app->router->get('/vtas/regvtas', [\App\Controllers\VentasController::class, 'regvtasple']);
 $app->router->get('/vtas/rvtas', [\App\Controllers\VentasController::class, 'regvtasp']);

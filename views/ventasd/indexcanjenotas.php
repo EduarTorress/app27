@@ -31,6 +31,7 @@ echo $clie->render();
                         <input type="text" class="form-control form-control-sm" id="txtcliente" placeholder="Cliente" disabled value="">
                         <input type="hidden" id="txtidcliente" value="0">
                         <input type="hidden" id="txtruccliente" value="">
+                        <input type="hidden" id="txtformapago" value="E">
                         <input type="hidden" id="txtdireccion" value="">
                         <input type="hidden" id="txtdnicliente" value="0">
                         <input type="hidden" id="txtclienteretencion" value="N">
@@ -137,6 +138,9 @@ $this->startSection('javascript');
     function seleccionarVenta(datos) {
         document.getElementById("txtidauto").value = datos.parametro1;
         document.getElementById("txtndoc").value = datos.parametro4;
+        if ($('#txtformapago').length) {
+            $('#txtformapago').val(datos.parametro9);
+        }
         $("#modal_ventas").modal('hide');
         buscarDetallePorId(datos.parametro1, datos.parametro9);
         $(".codigo").css("display", "none");
@@ -214,6 +218,10 @@ $this->startSection('javascript');
             toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
             return false;
         }
+        var nroDoc = document.getElementById("txtndoc").value.trim().toUpperCase();
+        if (nroDoc.startsWith("B") && tipoDoc === "03") {
+            toastr.error("El documento ya esta registrado como una boleta", 'Mensaje del Sistema');
+        }
         return true;
     }
 
@@ -221,7 +229,12 @@ $this->startSection('javascript');
         if (!validarVenta()) {
             return;
         }
-        cmensaje = '¿Registrar el Canje?';
+        ctdoc = $('#cmbdcto option:selected').val();
+        if (ctdoc === '03') {
+            cmensaje = 'Desea convertir el documento actual en Boleta';
+        } else {
+            cmensaje = 'Desea convertir el documento actual en Factura';
+        }
         registrar(cmensaje);
     }
 
@@ -257,6 +270,8 @@ $this->startSection('javascript');
                 data.append("cmbdcto", $("#cmbdcto").val());
                 data.append("clienteretencion", $("#txtclienteretencion").val());
                 data.append("total", $("#total").val());
+                data.append("documentoantiguo", $("#txtndoc").val());
+                data.append("txtformapago", $("#txtformapago").val());
                 axios.post("/vtas/registrarcanjearnota", data)
                     .then(function(respuesta) {
                         rpta = respuesta.data.mensaje.trimEnd() + ' ' + respuesta.data.ndoc;
