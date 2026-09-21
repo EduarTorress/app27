@@ -544,7 +544,6 @@ class ComprasController extends Controller
                 $nrocompra = $item['ndoc'];
                 $idauto = $item['idauto'];
             }
-
             if ($tipocompraexon == 'N') {
                 $carritoc[] = array(
                     'coda' => $item["idart"],
@@ -613,7 +612,6 @@ class ComprasController extends Controller
         if (floatval($days) >= intval($diasatraso)) {
             \session()->set('fusua',  $datosproveedor['fusua']);
         }
-
         if (count($carritoc) < 1) {
             header('Location: /ocompras/buscarcompra/' . $idauto);
             return;
@@ -634,7 +632,6 @@ class ComprasController extends Controller
         // $validar->rule("required", "ndo2");
         $validar->rule("required", "dolar");
         $validar->rule("required", "igv");
-
         if (!$validar->validate()) {
             $data = ["errors" => $validar->errors()];
             return response()->json($data, 422);
@@ -642,7 +639,6 @@ class ComprasController extends Controller
         if (empty($_SESSION["carritoc"])) {
             return response()->json(['message' => 'Se requiere productos para registrar la compra'], 422);
         }
-
         $compra = new Compra();
         $var =  $request->get('deta');
         $deta = (isset($var)) ? $request->get('deta') : "";
@@ -775,18 +771,13 @@ class ComprasController extends Controller
     function buscarOCompraPorID($idauto)
     {
         $ocompras = new OCompras();
-
         $datos = $ocompras->buscarxid($idauto);
         $titulo = 'Actualizar ' . $datos[0]['ndoc'];
-
         $serie = substr($datos[0]['ndoc'], 0, 4);
         $num = substr($datos[0]['ndoc'], 4, 12);
-
         $dctos = new DocumentoController();
         $listadctos = $dctos->Obtenerdctosocompras($cbuscar = "");
-
         $cvista = \retornavista('ocompras', 'index');
-
         return view($cvista, [
             'titulo' => $titulo,
             'idautocompra' => $idauto,
@@ -806,7 +797,6 @@ class ComprasController extends Controller
             $data = ["errors" => $validar->errors()];
             return response()->json($data, 422);
         }
-
         $datosregistro = [
             'idautocompra' => $request->get('idautocompra'),
             'idprov' => $request->get('idprov'),
@@ -1022,10 +1012,8 @@ class ComprasController extends Controller
         CarritoService::agregarItemCompraxposicion($producto);
         $total = number_format(CarritoService::totalCompra(), 2, '.', '');
         $numero_items = str_pad(CarritoService::numeroItemsCompra(), 2, '0', STR_PAD_LEFT);
-
         $carritoc = session()->get('carritoc', []);
         $cvista = \retornavista('compras', 'detalle');
-
         // return response()->json([
         //     'message' => 'Item agregado correctamente',
         //     'total' => $total,
@@ -1033,7 +1021,6 @@ class ComprasController extends Controller
         //     'carritoc' => session()->get("carritoc", [])
         // ], 200);
         $checknodescontarstock = \session()->get('checknodescontarstock', 'false');
-
         return view($cvista, [
             'carritoc' => $carritoc,
             'total' => $total,
@@ -1068,29 +1055,6 @@ class ComprasController extends Controller
     }
     function importarfoto()
     {
-        $carpeta = "correa";
-        if (session()->get("gene_nruc") == '10470458530') {
-            $carpeta = "norbil";
-        } else {
-            $carpeta = "walter";
-        }
-        try {
-            $ruta = $_SERVER['DOCUMENT_ROOT'] . '/img/compras/' . $carpeta;
-            $files = array_diff(scandir($ruta), array('.', '..'));
-            $cantfiles = count($files);
-            if ($cantfiles == 0) {
-                $cantfiles = 1;
-            } else {
-                $cantfiles = $cantfiles + 1;
-            }
-            if (!file_exists($ruta)) {
-                mkdir($ruta, 0777, true);
-            }
-            $tempname1 = $_FILES['txtimage']['tmp_name'];
-            move_uploaded_file($tempname1, $ruta . '/' . $cantfiles . '.jpeg');
-            return response()->json(['message' => 'Producto actualizado correctamente'], 200);
-        } catch (\Exception $error) {
-            return response()->json(['message' => 'Ocurrió un error ' . $error->getMessage()], 500);
-        }
+      
     }
 }
