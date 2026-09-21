@@ -1055,6 +1055,5 @@ class ComprasController extends Controller
     }
     function importarfoto()
     {
-      
     }
 }
