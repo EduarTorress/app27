@@ -219,7 +219,7 @@ $this->startSection('javascript');
             return false;
         }
         var nroDoc = document.getElementById("txtndoc").value.trim().toUpperCase();
-        if (nroDoc.startsWith("B") && tipoDoc === "03") {
+        if (nroDoc.startsWith("B") && ctdoc === "03") {
             toastr.error("El documento ya esta registrado como una boleta", 'Mensaje del Sistema');
         }
         return true;

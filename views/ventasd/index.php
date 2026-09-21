@@ -119,11 +119,11 @@ echo $login->render();
                         <input type="text" id="txtidautovtaanticipo" value="<?php echo empty($idautoanticipado) ? '0' : $idautoanticipado ?>" style="display:none;" readonly class="form-control form-control-sm">
                     </div>
                 </div>
-                <div class="col-sm-3">
-                </div>
-                <div class="col-sm-2" <?php echo ($idventa <> 0 ? ' ' : 'style="display:none;"') ?>>
+                <!-- <div class="col-sm-3">
+                </div> -->
+                <!-- <div class="col-sm-2" <?php echo ($idventa <> 0 ? ' ' : 'style="display:none;"') ?>>
                     <button class="btn btn-outline-primary btn-sm" id="btnconvertirafactura" role="button" onclick="convertirafactura(<?php echo $idventa ?>);">Convertir Boleta a Factura</button>
-                </div>
+                </div> -->
             </div>
             <div class="row">
                 <div class="col-sm-4">
