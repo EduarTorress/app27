@@ -205,29 +205,29 @@ $this->startSection('javascript');
         ctdoc = $('#cmbdcto option:selected').val();
         ruc = document.querySelector('#txtruccliente').value;
         if (idcliente == 0) {
-            toastr.info("Seleccione un Cliente", 'Mensaje del Sistema');
+            toastr.info("Seleccione un Cliente.", 'Mensaje del Sistema');
             return false;
         }
         if (total == 0) {
-            toastr.info("Ingrese Importes Válidos", 'Mensaje del Sistema');
+            toastr.info("Ingrese Importes Válidos.", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc.trim() === '') {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura.", 'Mensaje del Sistema');
             return false;
         }
         if (ctdoc === '01' && ruc === 0) {
-            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura", 'Mensaje del Sistema');
+            toastr.info("Se necesita que el Cliente tenga RUC para hacer una Factura.", 'Mensaje del Sistema');
             return false;
         }
         var nroDoc = document.getElementById("txtndoc").value.trim().toUpperCase();
         if (nroDoc.startsWith("B") && ctdoc === "03") {
-            toastr.error("El documento ya esta registrado como una boleta", 'Mensaje del Sistema');
+            toastr.error("El documento ya esta registrado como una boleta.", 'Mensaje del Sistema');
             return false;
         }
         rcom_mens = $("#rcom_mens").val();
-        if (rcom_mens.trim() === "") {
-            toastr.error("No es posible actualizar, documento informado a SUNAT", 'Mensaje del Sistema');
+        if (rcom_mens.trim() !== "") {
+            toastr.error("No es posible actualizar, documento informado a SUNAT.", 'Mensaje del Sistema');
             return false;
         }
         return true;

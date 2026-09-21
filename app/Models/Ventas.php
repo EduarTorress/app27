@@ -2006,12 +2006,13 @@ class Ventas extends Modelo
             // ]);
 
             // Ejecutar procedimiento almacenado
-            $sql = "CALL ProConvierteDocumentoaFactura(:id,:documento,:documentoantiguo,:formapago,:usuario)";
+            $sql = "CALL ProConvierteDocumentoaFactura(:id,:tipodocumento,:documento,:documentoantiguo,:formapago,:usuario)";
 
             $exec = $pdo->prepare($sql);
 
             $exec->execute([
                 'id' => $idauto,
+                'tipodocumento' => $cmbtdoc,
                 'documento' => $this->cndoc,
                 'documentoantiguo' => $documentoantiguo,
                 'formapago' => $txtformapago,
