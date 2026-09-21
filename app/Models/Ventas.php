@@ -1966,7 +1966,7 @@ class Ventas extends Modelo
     function consultarNotasporCliente($idCliente)
     {
         $sql = "SELECT ndoc AS dcto,a.fech,b.nruc,b.razo,IF(a.mone='S','Soles','Dólares') AS mone,
-        a.valor,a.rcom_exon,CAST(0 AS DECIMAL(12,2)) AS inafecto,b.idclie,b.ndni,
+        a.valor,a.rcom_exon,CAST(0 AS DECIMAL(12,2)) AS inafecto,b.idclie,b.ndni,form,rcom_mens,
         a.igv,a.impo,rcom_mens,a.tdoc,a.ndoc,idauto,rcom_arch,b.clie_corr,tcom,
         CONCAT(v.nruc,'-',tdoc,'-',LEFT(ndoc,4),'-',SUBSTR(ndoc,5),'.xml') AS nombrexml,tcom
         FROM fe_rcom AS a 

@@ -41,7 +41,19 @@
                                             $parametro7 = $item['impo'];
                                             $parametro8 = $item['ndni'];
                                             $parametro9 = $item['tcom'];
-                                            $parametros = compact('parametro1', 'parametro2', 'parametro3', 'parametro4', 'parametro5', 'parametro6', 'parametro7', 'parametro8', 'parametro9');
+                                            $parametro10 = $item['form'];
+                                            $parametros = compact(
+                                                'parametro1',
+                                                'parametro2',
+                                                'parametro3',
+                                                'parametro4',
+                                                'parametro5',
+                                                'parametro6',
+                                                'parametro7',
+                                                'parametro8',
+                                                'parametro9',
+                                                'parametro10'
+                                            );
                                             $cadena_json = json_encode($parametros);
                                             ?>
                                             <td class="text-center">

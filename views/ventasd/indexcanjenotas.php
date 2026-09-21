@@ -32,6 +32,7 @@ echo $clie->render();
                         <input type="hidden" id="txtidcliente" value="0">
                         <input type="hidden" id="txtruccliente" value="">
                         <input type="hidden" id="txtformapago" value="E">
+                        <input type="hidden" id="rcom_mens" value="">
                         <input type="hidden" id="txtdireccion" value="">
                         <input type="hidden" id="txtdnicliente" value="0">
                         <input type="hidden" id="txtclienteretencion" value="N">
@@ -139,8 +140,9 @@ $this->startSection('javascript');
         document.getElementById("txtidauto").value = datos.parametro1;
         document.getElementById("txtndoc").value = datos.parametro4;
         if ($('#txtformapago').length) {
-            $('#txtformapago').val(datos.parametro9);
+            $('#txtformapago').val(datos.parametro10);
         }
+        $('#rcom_mens').val(datos.parametro6);
         $("#modal_ventas").modal('hide');
         buscarDetallePorId(datos.parametro1, datos.parametro9);
         $(".codigo").css("display", "none");
@@ -221,6 +223,12 @@ $this->startSection('javascript');
         var nroDoc = document.getElementById("txtndoc").value.trim().toUpperCase();
         if (nroDoc.startsWith("B") && ctdoc === "03") {
             toastr.error("El documento ya esta registrado como una boleta", 'Mensaje del Sistema');
+            return false;
+        }
+        rcom_mens = $("#rcom_mens").val();
+        if (rcom_mens.trim() === "") {
+            toastr.error("No es posible actualizar, documento informado a SUNAT", 'Mensaje del Sistema');
+            return false;
         }
         return true;
     }
@@ -240,7 +248,9 @@ $this->startSection('javascript');
 
     function limpiardatos() {
         $("#txtcliente").val("");
-        $("#titulo").val("Facturar Notas");
+        $("#rcom_mens").val("");
+        $("#txtformapago").val("E");
+        $("#titulo").val("Facturar Ventas");
         $("#txtidcliente").val("0");
         $("#txtruccliente").val("0");
         $("#txtdnicliente").val("0");

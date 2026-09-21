@@ -1793,7 +1793,7 @@ class VentasController extends Controller
     }
     function indexcanjearnotas()
     {
-        $titulo = "Facturar Notas";
+        $titulo = "Facturar Ventas";
         return view('ventasd/indexcanjenotas', ['titulo' => $titulo]);
     }
     function listarnotastocanje(Request $request)
