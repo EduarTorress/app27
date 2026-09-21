@@ -290,7 +290,7 @@ $this->startSection('javascript');
                             text: rpta,
                             icon: "success"
                         });
-                        // toastr.success(rpta);
+                        // toastr.success(rpta,'Mensaje del Sistema');
                         limpiardatos();
                     }).catch(function(error) {
                         // mostrarerroresvalidacion(error);
