@@ -149,9 +149,7 @@ class VentasController extends Controller
         if ($ovalidar['estado'] == 0) {
             return response()->json($ovalidar['errors'], 422);
         }
-
         $ovtas = new Ventas();
-
         $cabecera = array(
             "idcliev" => $request->get("idcliev"),
             "tdocv" => $request->get("tdocv"),
@@ -185,12 +183,10 @@ class VentasController extends Controller
         $registro = $ovtas->grabaroVentaGeneral($cabecera, $detalle);
 
         if ($registro['estado'] == '1') {
-
             $this->limpiarSesionOvta();
             $_SESSION['datosovta'] = $cabecera;
             $_SESSION['detallev'] = $detalle;
             $_SESSION['ndoc'] = $registro['ndoc'];
-
             return response()->json(['message' => 'Se registro correctamente', 'ndoc' => $registro['ndoc']], 200);
         } else {
             return response()->json(['message' => 'Error al registrar venta', 'error' => $registro['mensaje']], 422);
@@ -226,7 +222,6 @@ class VentasController extends Controller
             "detav" => $deta,
             "nitemsv" => 0
         );
-
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
         $rpta = $venta->actualizarOVenta($cabecera, $detalle);
@@ -520,7 +515,6 @@ class VentasController extends Controller
             'preciofinal' => $preciofinal
         ], 200);
     }
-
     function verificarvalorescarrito(Request $request)
     {
         $detalle = json_decode($request->get("detalle"));
@@ -805,7 +799,6 @@ class VentasController extends Controller
                 );
                 $nroventa = $item['ndoc'];
             }
-
             $preciosindescuento = $item["prec"];
             $descuentoxproducto = ($ventascondescuento == 'S' ? $item['kar_desc'] : 0);
             if ($descuentoxproducto != 0) {
@@ -957,7 +950,6 @@ class VentasController extends Controller
     {
         $fila = $_SESSION['datosovta'];
         $detalle = $_SESSION['detallev'];
-
         $oimp = new Imprimir();
         $cletras = new Cletras();
         $i = 1;
@@ -1270,7 +1262,6 @@ class VentasController extends Controller
         $detalle = json_decode(json_encode($detalle), true);
 
         $rpta = $venta->grabarVentaCanjetr($cabecera, $detalle);
-
         if ($rpta['estado'] == 1) {
             $_SESSION['datosovta'] = $cabecera;
             $_SESSION['detallev'] = $detalle;
@@ -1577,18 +1568,15 @@ class VentasController extends Controller
             "txtreferencia" => $request->get("txtreferencia"),
             "usuario" => $request->get('usuario')
         );
-
         $_SESSION['carritov'] = $detalle;
         $registro = $venta->grabarVentaGeneral($cabecera);
 
         $pedido = new Pedido();
         $cambestped = $pedido->cambiarEstado($request->get("idautop"));
 
-
         if ($cambestped['estado'] == 0) {
             return response()->json(['message' => 'Error al actualizar estado de pedido', 'error' => $cambestped['mensaje']], 422);
         }
-
         if ($registro['estado'] == 1) {
             $carritov = session()->get('carritov', []);
             $_SESSION['datosovta'] = $cabecera;
