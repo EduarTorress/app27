@@ -1783,7 +1783,7 @@ class Ventas extends Modelo
     {
         $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
         $b = ($cmbmarca == '0') ? ' and m.idmar<>:cmbmarca  ' : ' and m.idmar=:cmbmarca ';
-        $sql = 'SELECT a.idart AS coda,a.Descri,a.unid,IFNULL(z.cant,0) AS cant,IFNULL(importe,0) AS importe,
+        $sql = 'SELECT a.idart AS coda,a.Descri,a.unid,IFNULL(SUM(z.cant),0) AS cant,IFNULL(SUM(importe),0) AS importe,
                 IFNULL(mes,0) AS mes,m.dmar AS marca,c.dcat AS linea,g.desgrupo AS grupo  
                 FROM fe_art AS a
                 INNER JOIN fe_mar AS m ON m.idmar=a.idmar
@@ -1797,7 +1797,7 @@ class Ventas extends Modelo
                 INNER JOIN fe_rcom AS b ON b.idauto=a.idauto
                 INNER JOIN fe_clie AS e ON e.idclie=b.idcliente
                 WHERE a.Acti="A" AND b.Acti="A" AND b.fech BETWEEN :dfi AND :dff' . $a . '  AND tdoc NOT IN("AJ","II")) AS z 
-                ON a.idart=z.coda WHERE prod_acti="A"' . $b . ' ORDER BY importe DESC';
+                ON a.idart=z.coda WHERE prod_acti="A"' . $b . ' GROUP BY a.idart ORDER BY importe DESC';
         $query = $this->prepare($sql);
         $query->execute([
             "dfi" => $dfi,
