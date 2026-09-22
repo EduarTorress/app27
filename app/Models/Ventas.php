@@ -720,7 +720,7 @@ class Ventas extends Modelo
 
             if ($sw == 0) {
                 $pdo->rollBack();
-                $rpta = array('mensaje' => "No Se Actualizo", "ndoc" => "", "estado" => '0');
+                $rpta = array('mensaje' => "No se Actualizo", "ndoc" => "", "estado" => '0');
                 return $rpta;
             }
             $pdo->commit();
@@ -1783,14 +1783,16 @@ class Ventas extends Modelo
     {
         $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
         $b = ($cmbmarca == '0') ? ' and m.idmar<>:cmbmarca  ' : ' and m.idmar=:cmbmarca ';
-        $sql = 'SELECT a.prod_cod1,a.idart AS coda,a.Descri,a.unid,IFNULL(z.cant,0) AS cant,IFNULL(importe,0) AS importe,
-                IFNULL(mes,0) AS mes,m.dmar AS marca,c.dcat AS linea,g.desgrupo AS grupo  FROM fe_art AS a
+        $sql = 'SELECT a.idart AS coda,a.Descri,a.unid,IFNULL(z.cant,0) AS cant,IFNULL(importe,0) AS importe,
+                IFNULL(mes,0) AS mes,m.dmar AS marca,c.dcat AS linea,g.desgrupo AS grupo  
+                FROM fe_art AS a
                 INNER JOIN fe_mar AS m ON m.idmar=a.idmar
                 INNER JOIN fe_cat AS c ON c.idcat=a.idcat
                 INNER JOIN fe_grupo AS g ON g.idgrupo=c.idgrupo
                 LEFT JOIN  (
                 SELECT a.idart AS coda,a.cant,IF(b.mone="S",cant*a.Prec*b.vigv,cant*a.Prec*b.dolar*b.vigv) AS importe,
-                e.razo AS referencia,a.alma,MONTH(b.fech) AS mes FROM fe_kar AS a
+                e.razo AS referencia,a.alma,MONTH(b.fech) AS mes 
+                FROM fe_kar AS a
                 INNER JOIN fe_art AS z ON z.idart=a.idart
                 INNER JOIN fe_rcom AS b ON b.idauto=a.idauto
                 INNER JOIN fe_clie AS e ON e.idclie=b.idcliente

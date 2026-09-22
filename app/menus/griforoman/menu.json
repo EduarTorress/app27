@@ -52,6 +52,12 @@
                 "opt": "A"
             },
             {
+                "item": "Rentabilidad",
+                "ruta": "/vtas/indexlistarutilidades",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
                 "item": "Registro de ventas",
                 "ruta": "/vtas/rvtas",
                 "class": "far fa-circle nav-icon",
@@ -158,6 +164,12 @@
                 "ruta": "/inventarios/kardex",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
+            },
+            {
+                "item": "Kardex General",
+                "ruta": "/inventarios/indexkardexgeneral",
+                "class": "far fa-circle nav-icon",
+                "opt": "AV"
             }
         ]
     },

@@ -968,7 +968,7 @@ class Compra extends Modelo
     {
         try {
             $a = ($cmbAlmacen == '0') ? ' and codt<>:cmbAlmacen  ' : ' and codt=:cmbAlmacen ';
-            $sql = "SELECT a.`prod_cod1` AS 'CODIGO',a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',TRIM(a.`unid`) AS 'UNIDAD',sum(k.cant) as cantidad,
+            $sql = "SELECT a.`descri` AS 'PRODUCTO',TRIM(m.`dmar`) AS 'MARCA',TRIM(a.`unid`) AS 'UNIDAD',sum(k.cant) as cantidad,
             SUM( IF( k.`alma` = '1', k.`cant`, 0 ) ) AS 'SUCURSAL 1',
             SUM( IF( k.`alma` = '2', k.`cant`, 0 ) ) AS 'SUCURSAL 2',
             SUM( IF( k.`alma` = '3', k.`cant`, 0 ) ) AS 'SUCURSAL 3',
