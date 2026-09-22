@@ -1790,7 +1790,7 @@ class Ventas extends Modelo
                 INNER JOIN fe_cat AS c ON c.idcat=a.idcat
                 INNER JOIN fe_grupo AS g ON g.idgrupo=c.idgrupo
                 LEFT JOIN  (
-                SELECT a.idart AS coda,a.cant,IF(b.mone="S",cant*a.Prec*b.vigv,cant*a.Prec*b.dolar*b.vigv) AS importe,
+                SELECT a.idart AS coda,a.cant,IF(b.mone="S",cant*a.Prec,cant*a.Prec*b.dolar) AS importe,
                 e.razo AS referencia,a.alma,MONTH(b.fech) AS mes 
                 FROM fe_kar AS a
                 INNER JOIN fe_art AS z ON z.idart=a.idart

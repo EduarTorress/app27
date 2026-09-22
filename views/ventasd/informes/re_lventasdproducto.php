@@ -19,7 +19,7 @@
                 <td><?php echo $item['grupo'] ?></td>
                 <td><?php echo $item['linea'] ?></td>
                 <td><?php echo $item['cant'] ?></td>
-                <td><?php echo round($item['importe'],2) ?></td>
+                <td><?php echo round($item['importe'],1) ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>
