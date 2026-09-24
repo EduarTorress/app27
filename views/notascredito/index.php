@@ -207,6 +207,30 @@ $this->startSection('javascript');
         }
     }
 
+     //Calculamos en el subtotal y total
+    function calcularsubtotal(o) {
+        var _tr = $(o);
+        if ($("#cmbdcto").val() == '07') {
+            var cant = _tr.find("td").eq(3).html();
+        } else {
+            var cant = _tr.find("td").eq(2).html();
+        }
+        var prec = _tr.find("td").eq(4).html();
+        var subt = parseFloat(cant) * parseFloat(prec);
+        var campo = _tr.find("td").eq(5);
+        if (isNaN(subt)) {
+            toastr.info("Dígite un número correcto", 'Mensaje del Sistema')
+        } else {
+            campo.html(subt.toFixed(2));
+            var total_col1 = 0;
+            $('table tbody').find('tr').each(function(i, el) {
+                //Voy incrementando las variables segun la fila ( .eq(0) representa la fila 1 )
+                total_col1 += parseFloat($(this).find('td').eq(5).text());
+                calcularIGV();
+            });
+        }
+    }
+
     function buscarVentasPorCliente(idCliente) {
         axios.get('/vtas/listarvtasnota', {
             "params": {

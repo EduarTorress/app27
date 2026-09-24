@@ -53,7 +53,7 @@ class NotasCredito extends Modelo
             $pdo->beginTransaction();
 
             $motivo = trim(substr($this->cdetalle, 0, 2));
-            $correlativo = SerieController::correlativo('1', '07');
+            $correlativo = SerieController::correlativo('1', $this->ctdoc);
             if ($correlativo[0]['estado'] == 0) {
                 $rpta = array('mensaje' => 'No se pudo obtener el correlativo', "estado" => '0');
                 return $rpta;
@@ -61,9 +61,15 @@ class NotasCredito extends Modelo
             $idserie = $correlativo[0]['idserie'];
             $this->cndoc = $correlativo[0]['correlativo'];
 
-            $ndocventa = substr($this->ndocventa, 0, 1);
-            if (trim($ndocventa) == 'B') {
-                $this->cndoc = str_replace('FN', 'BC', $this->cndoc);
+           $ndocventa = substr($this->ndocventa, 0, 1);
+            if ($this->ctdoc == '07') {
+                if (trim($ndocventa) == 'B') {
+                    $this->cndoc = str_replace('FN', 'BC', $this->cndoc);
+                }
+            } else {
+                if (trim($ndocventa) == 'B') {
+                    $this->cndoc = str_replace('FD', 'BD', $this->cndoc);
+                }
             }
 
             //     ctdoc VARCHAR(2),cform CHAR,cndoc VARCHAR(12),dfecha DATE,dfechar DATE,cdetalle VARCHAR(120),
@@ -150,9 +156,9 @@ class NotasCredito extends Modelo
                 'dfech' =>  $this->dfecha,
                 'cndoc' => $this->cndoc,
                 'n3' => session()->get("gene_idctat"),
-                'ntotal' => '-' . $this->ntotal,
+                'ntotal' => $this->ntotal,
                 'nidusua' => session()->get("usuario_id"),
-                'nidauto' =>$id,
+                'nidauto' => $id,
                 'nidclie' => $this->nidclie,
                 'cform' => $this->cform,
                 'ctdoc' => $this->ctdoc

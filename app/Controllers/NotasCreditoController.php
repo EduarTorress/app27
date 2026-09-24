@@ -22,7 +22,7 @@ class NotasCreditoController extends Controller
         $nc = new NotasCredito();
         $detalle = json_decode($request->get("detalle"));
         $detalle = json_decode(json_encode($detalle), true);
-        $nc->ctdoc = "07";
+       $nc->ctdoc = $request->get("tdocv");
         $nc->cform = $request->get("formv");
         $nc->dfecha = $request->get("fechv");
         if (trim(substr($request->get("cmbMotivo"), 0, 2)) == '13') {
@@ -30,9 +30,15 @@ class NotasCreditoController extends Controller
         } else {
             $nc->cdetalle = $request->get("cmbMotivo");
         }
-        $nc->nvalor = "-".$request->get("subtotal");
-        $nc->nigv ="-". $request->get("igv");
-        $nc->nt = "-".$request->get("total");
+        if ($nc->ctdoc == '07') {
+            $nc->nvalor = "-" . $request->get("subtotal");
+            $nc->nigv = "-" . $request->get("igv");
+            $nc->nt = "-" . $request->get("total");
+        } else {
+            $nc->nvalor =  $request->get("subtotal");
+            $nc->nigv = $request->get("igv");
+            $nc->nt = $request->get("total");
+        }
         $nc->cndo2 = $request->get("cndo2v");
         $nc->nidclie = $request->get("idcliev");
         $nc->ndocventa = $request->get("ndocventa");

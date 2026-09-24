@@ -16,10 +16,10 @@
                 <tr onkeyup="verificarValores(this)">
                     <td class="codigo"><?php echo $item['idart'] ?></td>
                     <td class="descripcion"><?php echo $item['descri'] ?></td>
-                    <td class="cantidad"  name="cantidad"><?php echo $item['cant'] ?></td>
+                    <td class="cantidad" name="cantidad"><?php echo $item['cant'] ?></td>
                     <td class="devolucion" onclick="funcionEnterCant(this,<?php echo $indice ?>)" onkeypress="return isNumber(event);" contenteditable="true" name="devolucion"><?php echo "0.00" ?></td>
                     <td class="precio" id="precio" onkeypress="return isNumber(event);" contenteditable="false" name="precio"><?php echo round($item['prec'], 2) ?></td>
-                    <td class="importe"  contenteditable="false" class="total"><?php echo "0.00" ?></td>
+                    <td class="importe" contenteditable="false" class="total"><?php echo "0.00" ?></td>
                     <?php $i++; ?>
                 </tr>
             <?php } ?>
@@ -188,25 +188,25 @@
         });
     });
 
-    //Calculamos en el subtotal y total
-    function calcularsubtotal(o) {
-        var _tr = $(o);
-        var cant = _tr.find("td").eq(3).html();
-        var prec = _tr.find("td").eq(4).html();
-        var subt = parseFloat(cant) * parseFloat(prec);
-        var campo = _tr.find("td").eq(5);
-        if (isNaN(subt)) {
-            toastr.info("Dígite un número correcto")
-        } else {
-            campo.html(subt.toFixed(2));
-            var total_col1 = 0;
-            $('table tbody').find('tr').each(function(i, el) {
-                //Voy incrementando las variables segun la fila ( .eq(0) representa la fila 1 )
-                total_col1 += parseFloat($(this).find('td').eq(5).text());
-                calcularIGV();
-            });
-        }
-    }
+    // //Calculamos en el subtotal y total
+    // function calcularsubtotal(o) {
+    //     var _tr = $(o);
+    //     var cant = _tr.find("td").eq(3).html();
+    //     var prec = _tr.find("td").eq(4).html();
+    //     var subt = parseFloat(cant) * parseFloat(prec);
+    //     var campo = _tr.find("td").eq(5);
+    //     if (isNaN(subt)) {
+    //         toastr.info("Dígite un número correcto",'Mensaje del Sistema')
+    //     } else {
+    //         campo.html(subt.toFixed(2));
+    //         var total_col1 = 0;
+    //         $('table tbody').find('tr').each(function(i, el) {
+    //             //Voy incrementando las variables segun la fila ( .eq(0) representa la fila 1 )
+    //             total_col1 += parseFloat($(this).find('td').eq(5).text());
+    //             calcularIGV();
+    //         });
+    //     }
+    // }
 
     //Validar precios
     function verificarValores(o) {
