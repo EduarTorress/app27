@@ -642,83 +642,59 @@ class Compra extends Modelo
         }
 
         try {
-            $tipocompraexon = (empty($_SESSION['config']['tipocompraexon']) ? 'N' : $_SESSION['config']['tipocompraexon']);
-            if ($tipocompraexon == 'N') {
-                $sql = "CALL ProActualizaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,
-                        :nv,:nigv,:nt,:cndo2,:cm,:ndolar,:ni,:ctg,:ccodp,
-                        :cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,0,
-                        :npvta,:nidauto)";
-                $ncon = new conexion();
-                $pdo = $ncon->conectar();
-                $pdo->beginTransaction();
-                $st = $pdo->prepare($sql);
-                $st->execute([
-                    'ctdoc' => $cabecera["tdoc"],
-                    'cndoc' => $cabecera["cndoc"],
-                    'cform' => $cabecera["form"],
-                    'dfecha' => $this->dfecha,
-                    'dfechar' => $this->dfechar,
-                    'cdetalle' => $cabecera["deta"],
-                    'nv' => $cabecera["valor"],
-                    'nigv' => $cabecera["nigv"],
-                    'nt' => $cabecera["impo"],
-                    'cndo2' => $cabecera["ndo2"],
-                    'cm' => $cabecera["mon"],
-                    'ndolar' => $cabecera["dolar"],
-                    'ni' => $igv,
-                    'ctg' => '1',
-                    'ccodp' => $cabecera["idprov"],
-                    'cmvto' => '1',
-                    'nus' => $cabecera["nidus"],
-                    'opt' => '0',
-                    'nidcodt' => $cabecera["alm"],
-                    'n1' => ($nidcta1),
-                    'n2' => ($nidcta2),
-                    'n3' => ($nidcta3),
-                    'npvta' => $cabecera['pimpo'],
-                    'nidauto' => $cabecera["nidauto"]
+            $ncon = new conexion();
+            $pdo = $ncon->conectar();
+            $pdo->beginTransaction();
+
+            if ($cabecera['tdoc'] == 'GI' || $cabecera['tdoc'] == '09') {
+                $sqlac = "UPDATE fe_ectasc SET ecta_acti='I' WHERE ecta_idrcon=:idauto";
+                $exeac = $pdo->prepare($sqlac);
+                $exeac->execute([
+                    'idauto' => $cabecera["nidauto"],
                 ]);
-            } else {
-                $sql = "CALL ProActualizaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,
-                        :nv,:nigv,:nt,:cndo2,:cm,:ndolar,:ni,:ctg,:ccodp,
-                        :cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,0,
-                        :npvta,:nidauto,:exon)";
-                $ncon = new conexion();
-                $pdo = $ncon->conectar();
-                $pdo->beginTransaction();
-                $st = $pdo->prepare($sql);
-                $st->execute([
-                    'ctdoc' => $cabecera["tdoc"],
-                    'cndoc' => $cabecera["cndoc"],
-                    'cform' => $cabecera["form"],
-                    'dfecha' => $this->dfecha,
-                    'dfechar' => $this->dfechar,
-                    'cdetalle' => $cabecera["deta"],
-                    'nv' => $cabecera["valor"],
-                    'nigv' => $cabecera["nigv"],
-                    'nt' => $cabecera["impo"],
-                    'cndo2' => $cabecera["ndo2"],
-                    'cm' => $cabecera["mon"],
-                    'ndolar' => $cabecera["dolar"],
-                    'ni' => $igv,
-                    'ctg' => '1',
-                    'ccodp' => $cabecera["idprov"],
-                    'cmvto' => '1',
-                    'nus' => $cabecera["nidus"],
-                    'opt' => '0',
-                    'nidcodt' => $cabecera["alm"],
-                    'n1' => $nidcta1,
-                    'n2' => $nidcta2,
-                    'n3' => $nidcta3,
-                    'npvta' => $cabecera['pimpo'],
-                    'nidauto' => $cabecera["nidauto"],
-                    'exon' => $cabecera['exonerado']
-                ]);
+                $exeac->closeCursor();
+                if ($exeac->errorCode() != '00000') {
+                    $exeac->debugDumpParams();
+                    $pdo->rollBack();
+                    return false;
+                }
             }
+
+            $tipocompraexon = (empty($_SESSION['config']['tipocompraexon']) ? 'N' : $_SESSION['config']['tipocompraexon']);
+            $sql = "CALL ProActualizaCabeceraCV(:ctdoc,:cform,:cndoc,:dfecha,:dfechar,:cdetalle,
+                        :nv,:nigv,:nt,:cndo2,:cm,:ndolar,:ni,:ctg,:ccodp,
+                        :cmvto,:nus,:opt,:nidcodt,:n1,:n2,:n3,0,
+                        :npvta,:nidauto" . ($tipocompraexon == 'N' ? ' ' : $cabecera['exonerado'] . ',') . ")";
+            $st = $pdo->prepare($sql);
+            $st->execute([
+                'ctdoc' => $cabecera["tdoc"],
+                'cndoc' => $cabecera["cndoc"],
+                'cform' => $cabecera["form"],
+                'dfecha' => $this->dfecha,
+                'dfechar' => $this->dfechar,
+                'cdetalle' => $cabecera["deta"],
+                'nv' => $cabecera["valor"],
+                'nigv' => $cabecera["nigv"],
+                'nt' => $cabecera["impo"],
+                'cndo2' => $cabecera["ndo2"],
+                'cm' => $cabecera["mon"],
+                'ndolar' => $cabecera["dolar"],
+                'ni' => $igv,
+                'ctg' => '1',
+                'ccodp' => $cabecera["idprov"],
+                'cmvto' => '1',
+                'nus' => $cabecera["nidus"],
+                'opt' => '0',
+                'nidcodt' => $cabecera["alm"],
+                'n1' => ($nidcta1),
+                'n2' => ($nidcta2),
+                'n3' => ($nidcta3),
+                'npvta' => $cabecera['pimpo'],
+                'nidauto' => $cabecera["nidauto"]
+            ]);
 
             // var_dump($st->debugDumpParams());
             $st->closeCursor();
-
             if ($st->errorCode() != '00000') {
                 $pdo->rollBack();
                 return false;
