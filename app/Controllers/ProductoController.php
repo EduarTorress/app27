@@ -414,6 +414,12 @@ class ProductoController extends Controller
         $rpta = $p->consultarstockxminimos();
         return view('admin/productos/listarstocksminimos', ['listado' => $rpta['listado']]);
     }
+      function consultarcambios(Request $request)
+    {
+        $p = new Producto();
+        $rpta = $p->consultarcambios();
+        return view('admin/productos/listarcambios', ['listado' => $rpta['listado']]);
+    }
     // function buscarproductoparacombo(Request $request)
     // {
     //     $abuscar = $request->get('cbuscar');

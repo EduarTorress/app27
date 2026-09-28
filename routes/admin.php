@@ -502,6 +502,7 @@ $app->router->post('/productos/consultarProductoPorID/', [\App\Controllers\Produ
 $app->router->get('/productos/consultarvtasxprod', [\App\Controllers\ProductoController::class, 'consultarvtasxprod']);
 $app->router->get('/productos/consultarcompxprod', [\App\Controllers\ProductoController::class, 'consultarcompxprod']);
 $app->router->get('/productos/consultarstockxminimos', [\App\Controllers\ProductoController::class, 'consultarstockxminimos']);
+$app->router->get('/productos/consultarcambios', [\App\Controllers\ProductoController::class, 'consultarcambios']);
 $app->router->get('/productos/verdetallecombo', [\App\Controllers\ProductoController::class, 'verdetallecombo']);
 
 #Rutas de grupos

@@ -52,8 +52,26 @@
                 "opt": "A"
             },
             {
+                "item": "Dashboard",
+                "ruta": "/dashboard",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
                 "item": "Rentabilidad",
                 "ruta": "/vtas/indexlistarutilidades",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Reporte de Ventas Anuladas",
+                "ruta": "/vtas/indexvtasanuladas",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Lista Ventas Modificadas",
+                "ruta": "/vtas/indexlistavtasmodificadas",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             },
@@ -204,6 +222,42 @@
             {
                 "item": "Ingresos y Egresos",
                 "ruta": "/cajas/indexIngresosEgresos",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Créditos",
+        "class": "fa fa-money",
+        "elementos": [
+            {
+                "item": "Vencimientos x Cliente",
+                "ruta": "/cobranzas/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Lista de Créditos ",
+                "ruta": "cobranzas/indexlistacobranzastodo",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            }
+        ]
+    },
+    {
+        "main": "Cuentas x Pagar",
+        "class": "fas fa-credit-card",
+        "elementos": [
+            {
+                "item": "Vencimientos x Proveedor",
+                "ruta": "/pagosproveedor/index",
+                "class": "far fa-circle nav-icon",
+                "opt": "A"
+            },
+            {
+                "item": "Lista de Vencimientos",
+                "ruta": "pagosproveedor/indexlistarctasxpagartodo",
                 "class": "far fa-circle nav-icon",
                 "opt": "A"
             }

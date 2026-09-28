@@ -311,6 +311,16 @@ class Producto extends Modelo
                     'vcom' => '0'
                 ]);
             }
+
+            $sqlAS = "CALL astock(:coda,:nalma,:ccant,:ctipo)";
+            $exeAS = $pdo->prepare($sqlAS);
+            $exeAS->execute([
+                'coda' => $d['idart'],
+                'nalma' => $cabecera['nidcodt'],
+                'ccant' =>  $cant,
+                'ctipo' => 'C'
+            ]);
+
             Serie::aumentarcorrelativo($cabecera['idserie'], $pdo);
             $pdo->commit();
             $data = ["mensaje" => 'Se ingreso correctamente el documento ' . $cabecera['cndoc'], 'estado' => '1'];
@@ -526,6 +536,23 @@ class Producto extends Modelo
     function consultarstockxminimos()
     {
         $sql = "SELECT * FROM fe_art a WHERE prod_acti='A' AND prod_smin>0";
+        $st = $this->prepare($sql);
+        $st->execute();
+        $lista = $st->fetchAll(PDO::FETCH_ASSOC);
+        if (count($lista) >= 1) {
+            $data = ['mensaje' => '', 'listado' => $lista, 'estado' => '1'];
+        } else {
+            $data = ['mensaje' => '', 'listado' => [], 'estado' => '0'];
+        }
+        return $data;
+    }
+    function consultarcambios()
+    {
+        $sql = "SELECT ap.*,u.nomb as usuario,descri as producto
+                FROM fe_aproductos ap
+                INNER JOIN fe_usua u ON ap.`prod_idus`=u.`idusua`
+                INNER JOIN fe_art a ON ap.`prod_idar`=a.`idart`
+                ORDER BY prod_fope DESC";
         $st = $this->prepare($sql);
         $st->execute();
         $lista = $st->fetchAll(PDO::FETCH_ASSOC);

@@ -143,7 +143,7 @@
                 total = total + subtotal;
                 $('#tbldetalle tbody').append(tr);
             });
-            $("#txtimportemodal").val(" " + total)
+            $("#txtimportemodal").val(" " + Number(total).toFixed(2))
             $("#modaldetalle").modal('show');
         }).catch(function(error) {
             toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')

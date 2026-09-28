@@ -24,7 +24,7 @@ class Serie extends Modelo
     }
     function obtenerSerieDadoAlma($almacen)
     {
-        $csql = "SELECT idserie,su.nomb AS tienda,serie FROM fe_serie se INNER JOIN fe_sucu su ON se.codt=su.idalma WHERE codt=:almacen LIMIT 1";
+        $csql = "SELECT idserie,su.nomb AS tienda,serie,dire FROM fe_serie se INNER JOIN fe_sucu su ON se.codt=su.idalma WHERE codt=:almacen LIMIT 1";
         try {
             $query = $this->prepare($csql);
             $query->setFetchMode(PDO::FETCH_ASSOC);
@@ -37,6 +37,7 @@ class Serie extends Modelo
             $_SESSION['serie'] = $resultado[0]['idserie'];
             $_SESSION['nserie'] = $resultado[0]['serie'];
             $_SESSION['tienda'] = $resultado[0]['tienda'];
+            $_SESSION['direccionsucursal'] = $resultado[0]['dire'];
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

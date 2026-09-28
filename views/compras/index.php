@@ -60,7 +60,7 @@ echo $prod->render();
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-2" style="display: none;">
                     <?php
                     $cempresa = isset($datosproveedor['alm']) ? $datosproveedor['alm'] : $_SESSION['idalmacen'];
                     $empresa = new \App\View\Components\EmpresaComponent($cempresa);
@@ -170,7 +170,7 @@ $this->startSection('javascript');
         $(".tipodocumentos option[value='08']").remove();
         $(".tipodocumentos option[value='22']").remove();
         $(".tipodocumentos option[value='20']").remove();
-        $("#cmbAlmacen").css("display", "none");
+        // $(".divtienda").css("display", "none");
         fechai = document.getElementById('txtfechai').value;
         obtenerDolar(fechai);
         calcularIGV();

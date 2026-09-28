@@ -82,35 +82,29 @@ class GuiaRemitente extends Modelo
             // $connection->query("SELECT @parametroSalida")->fetch();
             $idrcom = $valorr['id'];
 
-            $ls = "select FunIngresaGuias(:dfecha,:cptop,:cptoll,:dfechat,:nidus,:cdeta,:cndoc,
-            :nidtda,:cubigeo1,:cubigeo2,:nidv1,:nidv2,:nidr,:nidd,:ctdocr,:cdctor,:cconductor,:cplaca1,:cconstancia1,:cbrevete,:nidtr,:tdoc,:motivo,:nidauto) as id ";
+            // $ls = "select FunIngresaGuias(:dfecha,:cptop,:cptoll,:dfechat,:nidus,:cdeta,:cndoc,
+            // :nidtda,:cubigeo1,:cubigeo2,:nidv1,:nidv2,:nidr,:nidd,:ctdocr,:cdctor,:cconductor,:cplaca1,:cconstancia1,:cbrevete,:nidtr,:tdoc,:motivo,:nidauto) as id ";
+
+            // CREATE FUNCTION `FunIngresaGuias`(dfecha DATETIME,cptop VARCHAR(150),cptoll VARCHAR(150),nidauto INTEGER,
+            // dfechat DATETIME,nidus INTEGER,cdeta VARCHAR(150),nidtr INTEGER,cndoc VARCHAR(12),nidtda INTEGER,cubigeo VARCHAR(8)) RETURNS INT(11)
+
+
+            $ls = "select FunIngresaGuias(:dfecha,:cptop,:cptoll,:nidauto,:dfechat,:nidus,:cdeta,
+            :nidtr,:cndoc,:nidtda,:cubigeo1) as id ";
 
             $st = $pdo->prepare($ls);
             $st->execute([
                 'dfecha' => $this->dfecha,
                 'cptop' => $this->cptop,
                 'cptoll' => $this->cptoll,
+                'nidauto' => $idrcom,
                 'dfechat' => $this->dfechat,
                 'nidus' => session()->get('usuario_id'),
                 'cdeta' => $this->cdetalle,
+                'nidtr' => $this->nidtr,
                 'cndoc' => $this->cndoc,
                 'nidtda' => $_SESSION['idalmacen'],
-                'cubigeo1' => $this->cubigeo1,
-                'cubigeo2' => $this->cubigeo2,
-                'nidv1' => $this->nidv1,
-                'nidv2' => $this->nidv2,
-                'nidr' => $this->nidr,
-                'nidd' => $this->nidd,
-                'ctdocr' => $this->tdocrel,
-                'cdctor' => $this->cdctorelacionado,
-                'cconductor' => $this->conductor,
-                'cplaca1' => $this->placa1,
-                'cconstancia1' => $this->constancia1,
-                'cbrevete' => $this->brevete,
-                'nidtr' => $this->nidtr,
-                'tdoc' => $this->tdoc,
-                'motivo' => $this->motivo,
-                'nidauto' => $idrcom
+                'cubigeo1' => $this->cubigeo1
             ]);
 
             if ($st->errorCode() != '0000') {

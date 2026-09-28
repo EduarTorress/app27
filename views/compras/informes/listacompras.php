@@ -31,7 +31,7 @@
                 <td><?php echo $item['fusua'] ?></td>
                 <td class="small" style="text-align: center;">
                     <?php if ($item['tdoc'] != '07') : ?>
-                        <?php if ($item['tcom'] == '1') : ?>
+                        <?php if (($item['tcom'] == '1') || (strtoupper($item['tcom']) == 'K')) : ?>
                             <a class="btn btn-success" role="button" onclick="limpiarsesion();" href="<?php echo "/compras/buscarcompra/" . $item['idauto'] ?>">
                                 <i class="fas fa-eye "></i>
                             </a>

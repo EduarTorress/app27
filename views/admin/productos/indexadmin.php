@@ -33,6 +33,9 @@ echo $mdGs->render();
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#divstocksminimos" role="tab" aria-selected="false">Stock x Minimos</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#divlistarcambios" role="tab" aria-selected="false">Consultar Ultimos Cambios</a>
+                        </li>
                         <?php if ($_SESSION['tipousuario'] == 'A') : ?>
                             <li class="nav-item">
                                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#divcalcularstock" role="tab" aria-selected="false">Calcular Stock</a>
@@ -110,6 +113,14 @@ echo $mdGs->render();
                             <br>
                             <div class="card">
                                 <div class="card-body" id="resultadosminimos">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="divlistarcambios" role="tabpanel"><br>
+                            <button class="btn btn-success" onclick="consultarcambios();">Consultar Cambios</button>
+                            <br>
+                            <div class="card">
+                                <div class="card-body" id="resultadocambios">
                                 </div>
                             </div>
                         </div>
@@ -329,6 +340,15 @@ $this->startSection('javascript');
             // console.log(respuesta.data.message)
         }).catch(function(error) {
             toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
+        });
+    }
+
+     function consultarcambios() {
+        axios.get('/productos/consultarcambios', {}).then(function(respuesta) {
+            const contenido_tabla = respuesta.data;
+            $('#resultadocambios').html(contenido_tabla);
+        }).catch(function(error) {
+            toastr.error('Error al cargar el listado', 'Mensaje del Sistema')
         });
     }
 
