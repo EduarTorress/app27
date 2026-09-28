@@ -138,7 +138,7 @@ echo $prod->render();
             </div>
             <div class="modal-body">
                 <select onchange="" class="form-control form-control-sm" id="actualizarprecios" name="actualizarprecios">
-                    <option value="N">NO</option>
+                    <option value="N" selected>NO</option>
                     <option value="S">SI</option>
                 </select>
             </div>
@@ -249,7 +249,6 @@ $this->startSection('javascript');
                 axios.get('/compras/listardetalle').then(function(respuesta) {
                     const contenido_tabla = respuesta.data;
                     $('#detalle').html(contenido_tabla);
-
                     $("#griddetalle").addClass("border border-success border-5");
                 }).catch(function(error) {
                     toastr.error('Error al cargar el listado' + error, 'Mensaje del sistema')
@@ -523,11 +522,12 @@ $this->startSection('javascript');
         if (!validarCompra()) {
             return;
         }
-        $("#mdactualizarprecios").modal('show');
+        grabarCompra();
+        // $("#mdactualizarprecios").modal('show');
     }
 
     function grabaropcion() {
-        $("#mdactualizarprecios").modal('hide');
+        // $("#mdactualizarprecios").modal('hide');
         grabarCompra();
     }
 
@@ -881,7 +881,7 @@ $this->startSection('javascript');
         if (igv == 'I') {
             //Si el IGV está incluido
             let impo = (Number(total_col)).toFixed(2);
-            let valor = (impo / 1.18).toFixed(2);
+            let valor = (impo / <?php echo $_SESSION['gene_igv'] ?>).toFixed(2);
             let nigv = (impo - valor).toFixed(2);
             $("#igv").val(nigv);
             $("#subtotal").val(valor);
