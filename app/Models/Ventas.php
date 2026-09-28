@@ -1797,7 +1797,7 @@ class Ventas extends Modelo
                 INNER JOIN fe_rcom AS b ON b.idauto=a.idauto
                 INNER JOIN fe_clie AS e ON e.idclie=b.idcliente
                 WHERE a.Acti="A" AND b.Acti="A" AND b.fech BETWEEN :dfi AND :dff' . $a . '  AND tdoc NOT IN("AJ","II")) AS z 
-                ON a.idart=z.coda WHERE prod_acti="A"' . $b . ' GROUP BY a.idart ORDER BY importe DESC';
+                ON a.idart=z.coda WHERE prod_acti="A"' . $b . '  ORDER BY importe DESC';
         $query = $this->prepare($sql);
         $query->execute([
             "dfi" => $dfi,
