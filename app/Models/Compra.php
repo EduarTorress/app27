@@ -410,9 +410,7 @@ class Compra extends Modelo
                     'ctdoc' => $cabecera["tdoc"],
                     'nidtda' => $cabecera["alm"]
                 ]);
-
                 $queryy->closeCursor();
-
                 if ($queryy->errorCode() != '00000') {
                     $queryy->debugDumpParams();
                     // \print_r($queryy->errorInfo());
@@ -708,8 +706,37 @@ class Compra extends Modelo
                 $acre = $total;
             }
 
+
+            // if ($cabecera['form'] == 'E') {
+            //     $sqll = "CALL ProIngresaDatosLcajaEfectivoCturnos20(:fech,:cdcto,:cdeta,:idcta,0,:sacreedor,
+            //     :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:nidtda,0,0,'','','')";
+            //     $idusuacaja = ((!empty($_SESSION['config']['compranoingresacaja'])) ? 0 : $cabecera["nidus"]);
+            //     $queryy = $pdo->prepare($sqll);
+            //     $queryy->execute([
+            //         'fech' => $this->dfechar,
+            //         'cdeta' => $cabecera['txtproveedor'],
+            //         'idcta' => $nidcta3,
+            //         'sacreedor' => $acre,
+            //         'cmone' => 'S',
+            //         'ndolar' => $cabecera["dolar"],
+            //         'nidus' => $idusuacaja,
+            //         'nidauto' => $id,
+            //         'cform' => $cabecera["form"],
+            //         'cdcto' => $cabecera["cndoc"],
+            //         'ctdoc' => $cabecera["tdoc"],
+            //         'nidtda' => $cabecera["alm"]
+            //     ]);
+            //     $queryy->closeCursor();
+            //     if ($queryy->errorCode() != '00000') {
+            //         $queryy->debugDumpParams();
+            //         // \print_r($queryy->errorInfo());
+            //         $pdo->rollBack();
+            //         return false;
+            //     }
+            // }
+
             if ($cabecera['form'] == 'E') {
-                $sqlc = "CALL ProIngresaDatosLcajaEefectivo12(:fech,:cdcto,:cdeta,:idcta,'0',:sacreedor,
+                $sqlc = "CALL ProIngresaDatosLcajaEfectivoCturnos20(:fech,:cdcto,:cdeta,:idcta,'0',:sacreedor,
                 :cmone,:ndolar,:nidus,'0',:nidauto,:cform,:cdcto,:ctdoc,:tienda,0,0,'','','')";
                 $idusuacaja = ((!empty($_SESSION['config']['compranoingresacaja'])) ? 0 : $cabecera["nidus"]);
                 $queryc = $pdo->prepare($sqlc);
