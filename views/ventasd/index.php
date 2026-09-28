@@ -1015,6 +1015,12 @@ $this->startSection('javascript');
         $("#txtreferencia").prop("readonly", false).removeClass("bloqueado-edicion");
         $("#txtdias").prop("readonly", false).removeClass("bloqueado-edicion");
         $("#btnconvertirafactura").prop("disabled", false).removeClass("bloqueado-edicion");
+
+        // Bloquear también la apertura de la modal
+        $("#txtcliente")
+            .removeAttr("data-bs-toggle")
+            .removeAttr("data-bs-target")
+            .addClass("bloqueado-edicion");
     }
 
     // function convertirafactura(idventa) {
